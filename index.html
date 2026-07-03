@@ -2183,10 +2183,18 @@ img.home-piece,
       if (window.innerWidth <= 700 && viewport.closest(".work9-page")) h += 960;
       var max = Number(viewport.dataset.max || window.innerWidth);
       var available = Math.max(320, Math.min(window.innerWidth, max));
-      var scale = available / 2987;
+      var mobileZoom = window.innerWidth <= 700 ? 1.18 : 1;
+      var scale = available / 2987 * mobileZoom;
       viewport.dataset.scale = String(scale);
       viewport.style.width = (2987 * scale) + "px";
       viewport.style.height = (h * scale) + "px";
+      if (mobileZoom > 1) {
+        viewport.style.marginLeft = ((window.innerWidth - 2987 * scale) / 2) + "px";
+        viewport.style.marginRight = "0";
+      } else {
+        viewport.style.marginLeft = "";
+        viewport.style.marginRight = "";
+      }
       var artboard = viewport.querySelector(".artboard");
       if (artboard) {
         artboard.style.height = h + "px";
