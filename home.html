@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>首页</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page-shell">
+    <div class="viewport" data-height="3401">
+      <section class="artboard">
+        <a class="nav-text" style="left:128px;top:167px" href="menu.html">Menu</a>
+        <a class="logo" style="left:1275px;top:100px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <div class="layer home-stack" style="left:268px;top:492px;width:2449.673px;height:2757.289px">
+          <img class="layer home-piece shadow-soft" data-piece="resume" data-hover-transform="rotate(0deg) scale(1.045)" style="z-index:2;left:0;top:0;width:946.128px;height:1272.895px;transform:rotate(-4.26deg)" src="assets/resume.jpg" alt="Resume">
+          <div class="layer home-piece home-directory-card shadow-soft" data-piece="directory" data-hover-transform="rotate(0deg) scale(1.035)" style="z-index:3;left:581px;top:153px;width:1183px;height:2558px;transform:rotate(-4.93deg)">
+            <img src="assets/directory.png" alt="Directory">
+            <div class="home-concept-wrap" aria-label="Project introductions">
+            <div class="concept-list">
+              <article class="concept-item">
+                <button class="concept-title" type="button">01&nbsp;&nbsp;Fugitive Moments</button>
+                <div class="concept-detail">
+                  <p>平面系列作品，记录那些生命、光影与情绪交汇的刹那。</p>
+                  <a href="work1.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">02&nbsp;&nbsp;Spring collection scented candle</button>
+                <div class="concept-detail">
+                  <p>平面香薰广告作品，一缕春意的呼吸——轻柔、明亮、悄然治愈。</p>
+                  <a href="work2.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">03&nbsp;&nbsp;Maison Margiela FW</button>
+                <div class="concept-detail">
+                  <p>平面广告马吉拉作品，在静谧的天空蓝前，红色轮廓划破沉静。</p>
+                  <a href="work3.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">04&nbsp;&nbsp;YSL Womens Summer 26</button>
+                <div class="concept-detail">
+                  <p>平面YSL圣罗兰广告系列作品，流动的优雅——柔软却不可动摇。</p>
+                  <a href="work4.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">05&nbsp;&nbsp;2023 National College Student<br><span>Advertising Art Competition</span></button>
+                <div class="concept-detail">
+                  <p>2023年大广赛平面设计获奖作品以及参赛作品，娃哈哈咖位系列与泡泡玛特参赛作品。</p>
+                  <a href="work5.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">06&nbsp;&nbsp;Dainese Brand Calendar</button>
+                <div class="concept-detail">
+                  <p>Dainese临时美工作品，Dainese品牌日历，每月一张独特视觉设计。</p>
+                  <a href="work6.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">07&nbsp;&nbsp;2025 Collection of 2D Animated Works</button>
+                <div class="concept-detail">
+                  <p>2025平面作品合集动画，运用AE整合包含2025制作的平面海报内容。</p>
+                  <a href="work7.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">08&nbsp;&nbsp;School Film Club Food Video (2021)</button>
+                <div class="concept-detail">
+                  <p>2021影视部美食节目，2021年在学校影视部后期部的一条作品。</p>
+                  <a href="work8.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">09&nbsp;&nbsp;AIGC Design: School Course Project</button>
+                <div class="concept-detail">
+                  <p>2025学校课程AIGC作业，运用GPT以及Midjourney制作。</p>
+                  <a href="work9.html">Open Project</a>
+                </div>
+              </article>
+            </div>
+            </div>
+          </div>
+          <a class="layer home-piece shadow-deep" data-piece="bag" data-hover-transform="rotate(0deg) scale(1.035)" style="z-index:6;left:1203px;top:0;width:1246.232px;height:1706.817px;transform:rotate(3.68deg)" href="summary.html"><img src="assets/portfolio-bag.jpg" alt="Portfolio bag"></a>
+          <img class="layer home-piece shadow-soft" data-piece="profile" data-hover-transform="rotate(0deg) scale(1.06)" style="z-index:7;left:1015px;top:595px;width:603.737px;height:516.114px;transform:rotate(-16.32deg)" src="assets/profile-card.jpg" alt="Profile card">
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="fit.js?v=motion17"></script>
+  <script>
+    document.querySelectorAll('.home-stack').forEach(function (stack) {
+      var pieces = stack.querySelectorAll('.home-piece[data-piece]');
+      pieces.forEach(function (piece) {
+        piece.dataset.baseTransform = piece.style.transform || 'none';
+        if (piece.dataset.hoverTransform) {
+          piece.style.setProperty('--hover-transform', piece.dataset.hoverTransform);
+        }
+      });
+      function activatePiece(piece) {
+        var name = piece.dataset.piece;
+        pieces.forEach(function (target) {
+          var active = target.dataset.piece === name;
+          target.classList.toggle('is-raised', active);
+          target.style.transform = active ? (target.dataset.hoverTransform || 'scale(1.035)') : target.dataset.baseTransform;
+        });
+      }
+      pieces.forEach(function (piece) {
+        piece.addEventListener('pointerenter', function () {
+          activatePiece(piece);
+        });
+        piece.addEventListener('mouseenter', function () {
+          activatePiece(piece);
+        });
+      });
+      stack.addEventListener('pointerleave', function () {
+        pieces.forEach(function (target) {
+          target.classList.remove('is-raised');
+          target.style.transform = target.dataset.baseTransform;
+        });
+      });
+    });
+
+    document.querySelectorAll('.concept-title').forEach(function (button) {
+      button.addEventListener('click', function () {
+        var item = button.closest('.concept-item');
+        var isOpen = item.classList.contains('is-open');
+        document.querySelectorAll('.concept-item.is-open').forEach(function (openItem) {
+          openItem.classList.remove('is-open');
+        });
+        if (!isOpen) item.classList.add('is-open');
+      });
+    });
+  </script>
+</body>
+</html>

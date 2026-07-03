@@ -1,0 +1,2407 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sebastian's Portfolio</title>
+  <style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #000;
+}
+
+@keyframes page-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: .18;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #000;
+  color: #fff;
+  font-family: "Times New Roman", "Noto Serif SC", Georgia, serif;
+}
+
+body.is-entering .page-shell {
+  animation: none;
+}
+
+body.has-motion-bridge .page-shell {
+  animation: none !important;
+}
+
+body.is-leaving .page-shell {
+  animation: none;
+  pointer-events: none;
+}
+
+#single-app {
+  min-height: 100vh;
+  background: #000;
+  isolation: isolate;
+}
+
+#single-app.route-fade {
+  opacity: 0;
+  filter: blur(2px);
+  transform: translate3d(0, 8px, 0);
+}
+
+#single-app.route-fade-in {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+  transition: opacity 520ms cubic-bezier(.25, .72, .2, 1), filter 520ms cubic-bezier(.25, .72, .2, 1), transform 520ms cubic-bezier(.25, .72, .2, 1);
+}
+
+.page-ghost {
+  position: fixed;
+  inset: 0;
+  z-index: 18;
+  overflow: hidden;
+  pointer-events: none;
+  background: #000;
+  transform: translate3d(0, var(--ghost-scroll, 0px), 0);
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 1180ms cubic-bezier(.12, .72, .18, 1), filter 1180ms cubic-bezier(.12, .72, .18, 1);
+}
+
+@keyframes fallback-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fallback-leave {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: .08;
+    transform: translateY(-10px);
+  }
+}
+
+img,
+video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 0;
+  overflow-x: hidden;
+  background: #000;
+}
+
+.motion-bridge-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.motion-bridge-item {
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  transform-origin: top left;
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+  contain: layout paint;
+}
+
+.motion-bridge-item img,
+.motion-bridge-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.motion-bridge-item.is-logo img {
+  object-fit: contain;
+}
+
+.motion-bridge-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  font: inherit;
+  white-space: nowrap;
+}
+
+.motion-bridge-target-hidden {
+  opacity: 0 !important;
+}
+
+.home-piece-waiting {
+  opacity: 0;
+}
+
+.home-stack-waiting {
+  opacity: 0;
+}
+
+.home-stack-entering {
+  animation: home-stack-enter 720ms cubic-bezier(.25, .72, .2, 1) both;
+}
+
+@keyframes home-stack-enter {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.viewport {
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #000;
+}
+
+.artboard {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2987px;
+  background: #000;
+  transform-origin: top left;
+  overflow: hidden;
+}
+
+.layer {
+  position: absolute;
+}
+
+.shadow-soft {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .2), 0 4px 12px rgba(0, 0, 0, .25);
+}
+
+.shadow-deep {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .72);
+}
+
+.home-stack {
+  isolation: isolate;
+}
+
+.home-piece {
+  transform-origin: center center;
+  will-change: transform;
+  transition: transform .42s cubic-bezier(.2, .78, .18, 1), box-shadow .28s ease;
+}
+
+.home-piece.is-raised {
+  z-index: 40 !important;
+}
+
+.home-piece[data-piece]:hover,
+.home-piece[data-piece]:focus-visible {
+  z-index: 40 !important;
+  transform: var(--hover-transform, scale(1.035)) !important;
+}
+
+img.home-piece,
+.home-piece > img,
+.home-directory-card > img {
+  object-fit: fill;
+}
+
+.home-directory-card {
+  overflow: visible;
+}
+
+.home-directory-card > img {
+  pointer-events: none;
+}
+
+.menu-card {
+  transform-origin: center center;
+  transition: transform .38s cubic-bezier(.2, .78, .18, 1);
+  will-change: transform;
+}
+
+.menu-card:hover,
+.menu-card:focus-visible {
+  z-index: 35 !important;
+  transform: scale(1.035);
+}
+
+.menu-concept-card {
+  cursor: default;
+}
+
+.menu-concept-card > img {
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.menu-concept-card .concept-list {
+  left: 56.32px;
+  top: 388.26px;
+}
+
+.summary-card,
+.project-card {
+  transform-origin: center center;
+  transition: transform .38s cubic-bezier(.2, .78, .18, 1), box-shadow .28s ease;
+  will-change: transform;
+}
+
+.summary-bag {
+  z-index: 1;
+  transform-origin: center center;
+  will-change: transform, opacity, filter;
+}
+
+.portfolio-bag-interactive {
+  cursor: pointer;
+  transition: transform 520ms cubic-bezier(.22, .78, .18, 1), filter 420ms ease, box-shadow 420ms ease;
+}
+
+.summary-bag.portfolio-bag-interactive:hover,
+.summary-bag.portfolio-bag-interactive:focus-visible {
+  transform: translate3d(0, -16px, 0) scale(1.012);
+  filter: brightness(1.045) saturate(1.02);
+  outline: 0;
+}
+
+.menu-card.portfolio-bag-interactive:hover,
+.menu-card.portfolio-bag-interactive:focus-visible {
+  transform: translate3d(0, -10px, 0) scale(1.028);
+}
+
+.portfolio-bag-pressed {
+  animation: bag-press 360ms cubic-bezier(.25, .72, .2, 1) both;
+}
+
+@keyframes bag-press {
+  0% {
+    filter: brightness(1);
+  }
+  45% {
+    filter: brightness(.96) saturate(.98);
+  }
+  100% {
+    filter: brightness(1.035) saturate(1.02);
+  }
+}
+
+.summary-card {
+  z-index: 10;
+}
+
+.summary-card-waiting {
+  opacity: 0;
+}
+
+.summary-card-entering {
+  animation: summary-card-enter 1120ms cubic-bezier(.18, 1.08, .28, 1) both;
+  animation-delay: var(--summary-enter-delay, 0ms);
+}
+
+@keyframes summary-card-enter {
+  0% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: var(--summary-enter-from);
+  }
+  86% {
+    opacity: 1;
+    filter: blur(1px);
+    transform: var(--summary-enter-over);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: var(--summary-enter-to);
+  }
+}
+
+.summary-card:hover,
+.summary-card:focus-visible {
+  z-index: 35 !important;
+  transform: var(--hover-transform, scale(1.035)) !important;
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  transform: translateY(-10px) scale(1.018);
+}
+
+.nav-text {
+  position: absolute;
+  z-index: 20;
+  font-family: "Californian FB", "Times New Roman", serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.logo {
+  position: absolute;
+  z-index: 20;
+  width: 436px;
+  height: 245px;
+}
+
+.logo img {
+  object-fit: contain;
+}
+
+.fixed-chrome-source {
+  visibility: hidden;
+}
+
+.fixed-chrome-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  pointer-events: none;
+}
+
+.fixed-chrome-layer a {
+  pointer-events: auto;
+}
+
+.fixed-chrome-clone {
+  position: fixed !important;
+  transform-origin: top left;
+  will-change: left, top, transform, opacity;
+  backface-visibility: hidden;
+}
+
+.fixed-work-backdrop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 110;
+  width: 100vw;
+  height: min(7vw, 76px);
+  pointer-events: none;
+  background: #000;
+}
+
+.fixed-work-backdrop::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(-1.7vw, -24px);
+  height: min(1.9vw, 30px);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, .9), rgba(0, 0, 0, .28) 54%, rgba(0, 0, 0, 0));
+  backdrop-filter: blur(5px);
+}
+
+.entry {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 48px 20px;
+  background: #000;
+}
+
+.entry-panel {
+  width: min(900px, 92vw);
+}
+
+.entry-logo {
+  width: 220px;
+  height: auto;
+  margin: 0 auto 42px;
+}
+
+.entry h1 {
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: clamp(38px, 7vw, 84px);
+  line-height: .95;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.entry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.entry-grid a {
+  border: 1px solid rgba(255, 255, 255, .24);
+  padding: 14px 16px;
+  font-size: 16px;
+  transition: border-color .2s ease, background .2s ease;
+}
+
+.entry-grid a:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, .08);
+}
+
+.label {
+  color: #fff;
+  font-family: "Californian FB", "Times New Roman", serif;
+  font-size: 40px;
+  line-height: 1.15;
+}
+
+.caption {
+  color: #fff;
+  font-family: "Californian FB", "Times New Roman", serif;
+  font-size: 48px;
+  line-height: 1.18;
+  text-align: center;
+}
+
+.caption-small {
+  color: #fff;
+  font-family: "Californian FB", "Times New Roman", serif;
+  font-size: 32px;
+  line-height: 1.3;
+}
+
+.aigc-text {
+  color: #fff;
+  font-size: 34px;
+  line-height: 1.58;
+  letter-spacing: 0;
+  font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+}
+
+.aigc-text.project-text {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  border-left-width: 4px;
+  padding-left: 54px;
+  color: rgba(255, 255, 255, .82);
+}
+
+.aigc-step {
+  color: rgba(105, 150, 231, .95);
+  font-family: "Kyiv*Type Serif", "KyivType Serif", "Times New Roman", serif;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.aigc-title {
+  color: #fff;
+  font-family: "BOONE", "Kyiv*Type Serif", "KyivType Serif", "Times New Roman", serif;
+  font-size: 80px;
+  font-weight: normal;
+  letter-spacing: .06em;
+  line-height: 1.08;
+}
+
+.aigc-copy {
+  max-width: 100%;
+  color: #aeada9;
+  line-height: 1.66;
+}
+
+.project-meta {
+  color: #fff;
+  font-family: "Kyiv*Type Serif", "KyivType Serif", "Times New Roman", serif;
+}
+
+.project-kicker {
+  margin: 0 0 20px;
+  color: #6996e7;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.project-heading {
+  margin: 0;
+  color: #fff;
+  font-size: 96px;
+  font-weight: 700;
+  line-height: .98;
+}
+
+.project-desc {
+  margin: 30px 0 0;
+  max-width: 1080px;
+  color: #aeada9;
+  font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  font-size: 31px;
+  line-height: 1.56;
+}
+
+.work-side-meta .project-heading {
+  font-size: 82px;
+  line-height: 1.02;
+}
+
+.work-side-meta .project-desc {
+  margin-top: 54px;
+  max-width: 1280px;
+  line-height: 1.72;
+}
+
+.work4-meta .project-desc {
+  max-width: 1720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.work4-reflection {
+  max-width: 1620px;
+  margin: 52px auto 0;
+  color: rgba(255, 255, 255, .42);
+  font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  font-size: 30px;
+  line-height: 1.72;
+  transition: color .28s ease, transform .32s cubic-bezier(.2, .78, .18, 1);
+}
+
+.work4-reflection strong {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: rgba(255, 255, 255, .6);
+  font-weight: 700;
+}
+
+.work4-reflection:hover {
+  color: rgba(255, 255, 255, .82);
+  transform: translateY(-6px);
+}
+
+.work4-reflection:hover strong {
+  color: #fff;
+}
+
+.work5-series-tabs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 26px;
+  margin-top: 76px;
+}
+
+.work5-series-tab {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, .26);
+  cursor: pointer;
+  font-family: "Kyiv*Type Serif", "KyivType Serif", "Times New Roman", serif;
+  font-size: 62px;
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: 0;
+  text-align: left;
+  transform-origin: left center;
+  transition: color .28s ease, opacity .28s ease, transform .32s cubic-bezier(.2, .78, .18, 1);
+}
+
+.work5-series-tab:hover,
+.work5-series-tab:focus-visible {
+  color: rgba(255, 255, 255, .62);
+  outline: 0;
+}
+
+.work5-series-tab.is-active {
+  color: #fff;
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.work5-series-card {
+  transition: opacity .42s ease, visibility .42s ease, filter .42s ease, transform .34s cubic-bezier(.2, .78, .18, 1), box-shadow .28s ease;
+}
+
+.work5-wahaha-card {
+  z-index: 30 !important;
+}
+
+.work5-series-hidden {
+  visibility: hidden;
+  opacity: 0 !important;
+  pointer-events: none;
+  filter: blur(2px) brightness(.66);
+  transform: translateY(18px) scale(.98) !important;
+}
+
+.project-index {
+  color: rgba(105, 150, 231, .9);
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.project-card,
+.project-video {
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .42);
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  z-index: 30 !important;
+  transform: translateY(-18px) scale(1.022);
+  box-shadow: 0 32px 78px rgba(0, 0, 0, .58);
+}
+
+.project-video {
+  transform-origin: center center;
+  transition: transform .38s cubic-bezier(.2, .78, .18, 1), box-shadow .28s ease;
+  will-change: transform;
+  object-fit: contain;
+  background: #000;
+}
+
+.project-video:hover,
+.project-video:focus-visible {
+  z-index: 30 !important;
+  transform: translateY(-10px) scale(1.012);
+  box-shadow: 0 34px 86px rgba(0, 0, 0, .62);
+}
+
+.project-text {
+  border-left: 2px solid rgba(105, 150, 231, .55);
+  padding-left: 34px;
+  transition: transform .34s cubic-bezier(.2, .78, .18, 1), color .24s ease, border-color .24s ease, opacity .34s ease;
+}
+
+.project-text:hover {
+  z-index: 31 !important;
+  color: #fff;
+  border-color: rgba(217, 58, 185, .72);
+  transform: translateX(18px);
+}
+
+.project-text.is-centered {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.project-quote {
+  color: rgba(255, 255, 255, .86);
+  font-size: 44px;
+  line-height: 1.46;
+}
+
+.aigc-text.project-quote {
+  color: rgba(255, 255, 255, .86);
+}
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity .56s ease, transform .56s cubic-bezier(.2, .78, .18, 1);
+}
+
+.reveal-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card.reveal-item.is-visible:hover,
+.project-card.reveal-item.is-visible:focus-visible {
+  transform: translateY(-18px) scale(1.022);
+}
+
+.project-video.reveal-item.is-visible:hover,
+.project-video.reveal-item.is-visible:focus-visible {
+  transform: translateY(-10px) scale(1.012);
+}
+
+.project-text.reveal-item.is-visible:hover {
+  transform: translateX(18px);
+}
+
+.popmart-swap-card {
+  cursor: pointer;
+  transition: left .56s cubic-bezier(.2, .78, .18, 1), top .56s cubic-bezier(.2, .78, .18, 1), width .56s cubic-bezier(.2, .78, .18, 1), height .56s cubic-bezier(.2, .78, .18, 1), filter .36s ease, opacity .36s ease, box-shadow .36s ease, transform .34s cubic-bezier(.2, .78, .18, 1);
+}
+
+.popmart-swap-card[data-slot="center"] {
+  z-index: 34 !important;
+  opacity: 1;
+  filter: none;
+}
+
+.popmart-swap-card[data-slot="left"],
+.popmart-swap-card[data-slot="right"] {
+  z-index: 24 !important;
+  opacity: .78;
+  filter: blur(1.4px) brightness(.78);
+}
+
+.popmart-swap-card[data-slot="left"]:hover,
+.popmart-swap-card[data-slot="right"]:hover {
+  opacity: .94;
+  filter: blur(.4px) brightness(.9);
+  transform: translateY(-12px) scale(1.012);
+}
+
+.popmart-swap-card[data-slot="center"]:hover {
+  transform: translateY(-16px) scale(1.015);
+}
+
+.popmart-swap-card.reveal-item.is-visible[data-slot="left"]:hover,
+.popmart-swap-card.reveal-item.is-visible[data-slot="right"]:hover {
+  transform: translateY(-12px) scale(1.012);
+}
+
+.popmart-swap-card.reveal-item.is-visible[data-slot="center"]:hover {
+  transform: translateY(-16px) scale(1.015);
+}
+
+.moments-carousel {
+  overflow: hidden;
+  user-select: none;
+  cursor: grab;
+}
+
+.moments-carousel.is-dragging {
+  cursor: grabbing;
+}
+
+.moments-track {
+  position: absolute;
+  inset: 0;
+}
+
+.moments-slide {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1160px;
+  height: 653px;
+  border: 0;
+  padding: 0;
+  background: #050505;
+  color: #fff;
+  cursor: pointer;
+  overflow: hidden;
+  transform-origin: center center;
+  transition: transform .48s cubic-bezier(.2, .78, .18, 1), opacity .32s ease, filter .32s ease, box-shadow .32s ease;
+  will-change: transform, opacity, filter;
+}
+
+.moments-slide img {
+  pointer-events: none;
+}
+
+.moments-slide span {
+  position: absolute;
+  left: 38px;
+  top: 32px;
+  z-index: 2;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 38px;
+  line-height: 1.2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .45);
+}
+
+.moments-slide.is-active {
+  box-shadow: 0 34px 94px rgba(0, 0, 0, .72);
+}
+
+.moments-control {
+  position: absolute;
+  top: 50%;
+  z-index: 60;
+  width: 72px;
+  height: 72px;
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .42);
+  color: #fff;
+  font-family: "Times New Roman", serif;
+  font-size: 54px;
+  line-height: 62px;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background .24s ease, transform .24s ease, border-color .24s ease;
+}
+
+.moments-control:hover,
+.moments-control:focus-visible {
+  background: rgba(105, 150, 231, .24);
+  border-color: rgba(255, 255, 255, .65);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.moments-control.prev {
+  left: 18px;
+}
+
+.moments-control.next {
+  right: 18px;
+}
+
+.portfolio-title {
+  border: 1px solid rgba(255, 255, 255, .28);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 180px;
+  font-weight: 800;
+  line-height: .95;
+  padding: 64px 72px;
+}
+
+.nav-list {
+  color: #6996e7;
+  font-size: 48px;
+  line-height: 1.42;
+  font-family: "Times New Roman", serif;
+}
+
+.nav-list a {
+  display: block;
+}
+
+.concept-list {
+  position: absolute;
+  z-index: 6;
+  left: 885.79px;
+  top: 896.26px;
+  width: 560px;
+}
+
+.concept-item {
+  display: block;
+  margin-bottom: 28.6px;
+  transition: transform .32s ease;
+}
+
+.concept-title {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #6996e7;
+  cursor: pointer;
+  font-family: "Kyiv*Type Serif", "KyivType Serif", "Kyiv*Type_Serif", "Times New Roman", serif;
+  font-size: 27.08px;
+  font-weight: 300;
+  line-height: 1.2;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.concept-title span {
+  display: inline-block;
+  padding-left: 42px;
+}
+
+.concept-detail {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0;
+  transition: max-height .34s ease, opacity .24s ease, padding .34s ease;
+}
+
+.concept-detail p {
+  margin: 9px 0 0;
+  color: #d93ab9;
+  font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  font-size: 14.9px;
+  line-height: 1.5;
+  white-space: normal;
+}
+
+.concept-detail a {
+  display: inline-block;
+  margin-top: 9px;
+  color: #a43a2d;
+  font-family: "Kyiv*Type Serif", "KyivType Serif", "Times New Roman", serif;
+  font-size: 11.9px;
+  line-height: 1.2;
+}
+
+.concept-detail a:hover {
+  text-decoration: underline;
+}
+
+.concept-item.is-open .concept-detail {
+  max-height: 104px;
+  opacity: 1;
+  padding-bottom: 12px;
+}
+
+.home-concept-wrap {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.home-concept-wrap .concept-list {
+  left: 104px;
+  top: 717px;
+  width: 1030px;
+}
+
+.home-concept-wrap .concept-item {
+  margin-bottom: 54px;
+}
+
+.home-concept-wrap .concept-title {
+  font-size: 50px;
+}
+
+.home-concept-wrap .concept-title span {
+  padding-left: 78px;
+}
+
+.home-concept-wrap .concept-detail p {
+  margin-top: 18px;
+  font-size: 28px;
+}
+
+.home-concept-wrap .concept-detail a {
+  margin-top: 17px;
+  font-size: 22px;
+}
+
+.home-concept-wrap .concept-item.is-open .concept-detail {
+  max-height: 190px;
+  padding-bottom: 28px;
+}
+
+@media (max-width: 700px) {
+  a,
+  button {
+    touch-action: manipulation;
+  }
+
+  .fixed-chrome-layer {
+    z-index: 500;
+  }
+
+  .fixed-chrome-clone.logo {
+    left: 50% !important;
+    top: 8px !important;
+    width: 96px !important;
+    height: 54px !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .fixed-chrome-clone.nav-text {
+    top: 14px !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 44px;
+    min-height: 44px;
+    margin: -14px !important;
+    padding: 14px !important;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    transform: none !important;
+  }
+
+  .fixed-chrome-clone.nav-text[href="menu.html"] {
+    left: 16px !important;
+  }
+
+  .fixed-chrome-clone.nav-text:not([href="menu.html"]) {
+    left: auto !important;
+    right: 16px !important;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .fixed-work-backdrop {
+    height: 58px;
+  }
+
+  .fixed-work-backdrop::after {
+    bottom: -18px;
+    height: 22px;
+  }
+
+  .viewport,
+  .artboard {
+    overflow: visible;
+  }
+
+  .home-concept-wrap .concept-title {
+    position: relative;
+    min-height: 0;
+    padding: 0;
+    font-size: 64px;
+    line-height: 1.12;
+  }
+
+  .home-concept-wrap .concept-item {
+    margin-bottom: 54px;
+  }
+
+  .home-concept-wrap .concept-detail p {
+    margin-top: 18px;
+    font-size: 42px;
+    line-height: 1.42;
+  }
+
+  .home-concept-wrap .concept-detail a {
+    position: relative;
+    min-height: 0;
+    margin-top: 17px;
+    padding: 0;
+    border: 0;
+    font-size: 42px;
+    line-height: 1;
+  }
+
+  .home-concept-wrap .concept-item.is-open .concept-detail {
+    max-height: 300px;
+    padding-bottom: 34px;
+  }
+
+  .concept-title {
+    position: relative;
+  }
+
+  .concept-title::after,
+  .concept-detail a::after,
+  .work5-series-tab::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+  }
+
+  .concept-title::after {
+    inset: -120px -80px;
+  }
+
+  .concept-detail a::after {
+    inset: -130px -180px;
+  }
+
+  .project-kicker {
+    font-size: 56px;
+  }
+
+  .project-heading {
+    font-size: 108px;
+    line-height: 1.02;
+  }
+
+  .work-side-meta .project-heading {
+    font-size: 104px;
+  }
+
+  .project-desc {
+    margin-top: 34px;
+    font-size: 54px;
+    line-height: 1.5;
+  }
+
+  .work-side-meta .project-desc {
+    margin-top: 48px;
+  }
+
+  .work4-reflection {
+    font-size: 52px;
+  }
+
+  .aigc-text {
+    font-size: 54px;
+  }
+
+  .aigc-title {
+    font-size: 104px;
+  }
+
+  .work5-series-tabs {
+    gap: 34px;
+    margin-top: 86px;
+  }
+
+  .work5-series-tab {
+    position: relative;
+    min-height: 0;
+    padding: 0;
+    font-size: 78px;
+    line-height: 1.08;
+  }
+
+  .work5-series-tab::after {
+    inset: -120px -180px;
+  }
+
+  .moments-control {
+    width: 300px;
+    height: 300px;
+    font-size: 168px;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+  <div id="single-app"></div>
+<template id="page-home" data-title="首页">
+<main class="page-shell">
+    <div class="viewport" data-height="3401">
+      <section class="artboard">
+        <a class="nav-text" style="left:128px;top:167px" href="menu.html">Menu</a>
+        <a class="logo" style="left:1275px;top:100px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <div class="layer home-stack" style="left:268px;top:492px;width:2449.673px;height:2757.289px">
+          <img class="layer home-piece shadow-soft" data-piece="resume" data-hover-transform="rotate(0deg) scale(1.045)" style="z-index:2;left:0;top:0;width:946.128px;height:1272.895px;transform:rotate(-4.26deg)" src="assets/resume.jpg" alt="Resume">
+          <div class="layer home-piece home-directory-card shadow-soft" data-piece="directory" data-hover-transform="rotate(0deg) scale(1.035)" style="z-index:3;left:581px;top:153px;width:1183px;height:2558px;transform:rotate(-4.93deg)">
+            <img src="assets/directory.png" alt="Directory">
+            <div class="home-concept-wrap" aria-label="Project introductions">
+            <div class="concept-list">
+              <article class="concept-item">
+                <button class="concept-title" type="button">01&nbsp;&nbsp;Fugitive Moments</button>
+                <div class="concept-detail">
+                  <p>平面系列作品，记录那些生命、光影与情绪交汇的刹那。</p>
+                  <a href="work1.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">02&nbsp;&nbsp;Spring collection scented candle</button>
+                <div class="concept-detail">
+                  <p>平面香薰广告作品，一缕春意的呼吸——轻柔、明亮、悄然治愈。</p>
+                  <a href="work2.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">03&nbsp;&nbsp;Maison Margiela FW</button>
+                <div class="concept-detail">
+                  <p>平面广告马吉拉作品，在静谧的天空蓝前，红色轮廓划破沉静。</p>
+                  <a href="work3.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">04&nbsp;&nbsp;YSL Womens Summer 26</button>
+                <div class="concept-detail">
+                  <p>平面YSL圣罗兰广告系列作品，流动的优雅——柔软却不可动摇。</p>
+                  <a href="work4.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">05&nbsp;&nbsp;2023 National College Student<br><span>Advertising Art Competition</span></button>
+                <div class="concept-detail">
+                  <p>2023年大广赛平面设计获奖作品以及参赛作品，娃哈哈咖位系列与泡泡玛特参赛作品。</p>
+                  <a href="work5.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">06&nbsp;&nbsp;Dainese Brand Calendar</button>
+                <div class="concept-detail">
+                  <p>Dainese临时美工作品，Dainese品牌日历，每月一张独特视觉设计。</p>
+                  <a href="work6.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">07&nbsp;&nbsp;2025 Collection of 2D Animated Works</button>
+                <div class="concept-detail">
+                  <p>2025平面作品合集动画，运用AE整合包含2025制作的平面海报内容。</p>
+                  <a href="work7.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">08&nbsp;&nbsp;School Film Club Food Video (2021)</button>
+                <div class="concept-detail">
+                  <p>2021影视部美食节目，2021年在学校影视部后期部的一条作品。</p>
+                  <a href="work8.html">Open Project</a>
+                </div>
+              </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">09&nbsp;&nbsp;AIGC Design: School Course Project</button>
+                <div class="concept-detail">
+                  <p>2025学校课程AIGC作业，运用GPT以及Midjourney制作。</p>
+                  <a href="work9.html">Open Project</a>
+                </div>
+              </article>
+            </div>
+            </div>
+          </div>
+          <a class="layer home-piece shadow-deep" data-piece="bag" data-hover-transform="rotate(0deg) scale(1.035)" style="z-index:6;left:1203px;top:0;width:1246.232px;height:1706.817px;transform:rotate(3.68deg)" href="summary.html"><img src="assets/portfolio-bag.jpg" alt="Portfolio bag"></a>
+          <img class="layer home-piece shadow-soft" data-piece="profile" data-hover-transform="rotate(0deg) scale(1.06)" style="z-index:7;left:1015px;top:595px;width:603.737px;height:516.114px;transform:rotate(-16.32deg)" src="assets/profile-card.jpg" alt="Profile card">
+        </div>
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-menu" data-title="Menu">
+<main class="page-shell">
+    <div class="viewport" data-height="3401">
+      <section class="artboard">
+        <a class="logo" style="left:152px;top:100px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:2737px;top:167px" href="index.html">Back</a>
+        <p class="label layer" style="left:205px;top:420px">About Me</p>
+        <p class="label layer" style="left:829px;top:420px">Concept</p>
+        <p class="label layer" style="left:1505px;top:420px">Connect</p>
+        <p class="label layer" style="left:1947px;top:420px">Project</p>
+        <a class="layer menu-card shadow-soft" style="left:205px;top:508px;width:589.091px;height:832.04px" href="home.html"><img src="assets/resume.jpg" alt="Resume"></a>
+        <div class="layer menu-card menu-concept-card" style="left:829.47px;top:508px;width:640.609px;height:1385.188px">
+          <img src="assets/directory.png" alt="Directory">
+          <div class="concept-list" aria-label="Project introductions">
+          <article class="concept-item">
+            <button class="concept-title" type="button">01&nbsp;&nbsp;Fugitive Moments</button>
+            <div class="concept-detail">
+              <p>平面系列作品，记录那些生命、光影与情绪交汇的刹那。</p>
+              <a href="work1.html">Open Project</a>
+            </div>
+          </article>
+          <article class="concept-item">
+            <button class="concept-title" type="button">02&nbsp;&nbsp;Spring collection scented candle</button>
+            <div class="concept-detail">
+              <p>平面香薰广告作品，一缕春意的呼吸——轻柔、明亮、悄然治愈。</p>
+              <a href="work2.html">Open Project</a>
+            </div>
+          </article>
+          <article class="concept-item">
+            <button class="concept-title" type="button">03&nbsp;&nbsp;Maison Margiela FW</button>
+            <div class="concept-detail">
+              <p>平面广告马吉拉作品，在静谧的天空蓝前，红色轮廓划破沉静。</p>
+              <a href="work3.html">Open Project</a>
+            </div>
+          </article>
+          <article class="concept-item">
+            <button class="concept-title" type="button">04&nbsp;&nbsp;YSL Womens Summer 26</button>
+            <div class="concept-detail">
+              <p>平面YSL圣罗兰广告系列作品，流动的优雅——柔软却不可动摇。</p>
+              <a href="work4.html">Open Project</a>
+            </div>
+          </article>
+          <article class="concept-item">
+            <button class="concept-title" type="button">05&nbsp;&nbsp;2023 National College Student<br><span>Advertising Art Competition</span></button>
+            <div class="concept-detail">
+              <p>2023年大广赛平面设计获奖作品以及参赛作品，娃哈哈咖位系列与泡泡玛特参赛作品。</p>
+              <a href="work5.html">Open Project</a>
+            </div>
+          </article>
+          <article class="concept-item">
+            <button class="concept-title" type="button">06&nbsp;&nbsp;Dainese Brand Calendar</button>
+            <div class="concept-detail">
+              <p>Dainese临时美工作品，Dainese品牌日历，每月一张独特视觉设计。</p>
+              <a href="work6.html">Open Project</a>
+            </div>
+          </article>
+          <article class="concept-item">
+            <button class="concept-title" type="button">07&nbsp;&nbsp;2025 Collection of 2D Animated Works</button>
+            <div class="concept-detail">
+              <p>2025平面作品合集动画，运用AE整合包含2025制作的平面海报内容。</p>
+              <a href="work7.html">Open Project</a>
+            </div>
+          </article>
+          <article class="concept-item">
+            <button class="concept-title" type="button">08&nbsp;&nbsp;School Film Club Food Video (2021)</button>
+            <div class="concept-detail">
+              <p>2021影视部美食节目，2021年在学校影视部后期部的一条作品。</p>
+              <a href="work8.html">Open Project</a>
+            </div>
+          </article>
+          <article class="concept-item">
+            <button class="concept-title" type="button">09&nbsp;&nbsp;AIGC Design: School Course Project</button>
+            <div class="concept-detail">
+              <p>2025学校课程AIGC作业，运用GPT以及Midjourney制作。</p>
+              <a href="work9.html">Open Project</a>
+            </div>
+          </article>
+          </div>
+        </div>
+        <a class="layer menu-card shadow-soft" style="left:1505.39px;top:508px;width:406.56px;height:304.816px" href="home.html"><img src="assets/profile-card.jpg" alt="Contact card"></a>
+        <a class="layer menu-card shadow-deep" style="left:1947.25px;top:508px;width:838.746px;height:1200.511px" href="summary.html"><img src="assets/portfolio-bag.jpg" alt="Portfolio bag"></a>
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-summary" data-title="作品集汇总界面">
+<main class="page-shell">
+    <div class="viewport" data-height="3330">
+      <section class="artboard">
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:2737px;top:117px" href="index.html">Back</a>
+        <a class="layer summary-bag shadow-deep" style="left:837px;top:711px;width:1313px;height:1880px" href="summary.html"><img src="assets/portfolio-bag.jpg" alt="Portfolio bag"></a>
+        <a class="layer summary-card shadow-deep" style="left:554.28px;top:732.80px;width:389.007px;height:842.487px;transform:rotate(11.22deg);--hover-transform:rotate(0deg) scale(1.04)" href="work6.html"><img src="assets/dainese-1.jpg" alt="Dainese January"></a>
+        <a class="layer summary-card shadow-deep" style="left:1208.65px;top:1918.24px;width:448.081px;height:672.122px;transform:rotate(44.06deg);--hover-transform:rotate(0deg) scale(1.04)" href="work2.html"><img src="assets/spring.png" alt="Spring Collection"></a>
+        <a class="layer summary-card shadow-deep" style="left:851.41px;top:1532.15px;width:478.095px;height:717.142px;transform:rotate(16.38deg);--hover-transform:rotate(0deg) scale(1.04)" href="work3.html"><img src="assets/margiela.png" alt="Maison Margiela"></a>
+        <a class="layer summary-card shadow-deep" style="left:1646.42px;top:652.49px;width:700.062px;height:313.783px;transform:rotate(-22.61deg);--hover-transform:rotate(0deg) scale(1.04)" href="work8.html"><img src="assets/video-cover-3.webp" alt="Food video"></a>
+        <a class="layer summary-card shadow-deep" style="left:1838.02px;top:1764.30px;width:637.257px;height:955.886px;transform:rotate(10.81deg);--hover-transform:rotate(0deg) scale(1.04)" href="work4.html"><img src="assets/ysl-power.png" alt="YSL Power"></a>
+        <a class="layer summary-card shadow-deep" style="left:369.31px;top:1502.35px;width:541.364px;height:765.686px;transform:rotate(-13.94deg);--hover-transform:rotate(0deg) scale(1.04)" href="work5.html"><img src="assets/popmart-3.jpg" alt="Advertising Art Competition"></a>
+        <a class="layer summary-card shadow-deep" style="left:454.29px;top:2175.19px;width:932.592px;height:524.583px;transform:rotate(12.71deg);--hover-transform:rotate(0deg) scale(1.04)" href="work1.html"><img src="assets/moments-00.png" alt="Fugitive Moments"></a>
+        <a class="layer summary-card shadow-deep" style="left:1707.06px;top:962.75px;width:683px;height:383px;transform:rotate(9.13deg);--hover-transform:rotate(0deg) scale(1.04)" href="work9.html"><img src="assets/ai 1.jpg" alt="AIGC work"></a>
+        <a class="layer summary-card shadow-deep" style="left:1653.94px;top:1345.46px;width:873.094px;height:410.446px;transform:rotate(6.69deg);--hover-transform:rotate(0deg) scale(1.04)" href="work7.html"><img src="assets/video-cover-1.webp" alt="Animated Works"></a>
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-work1" data-title="作品1">
+<main class="page-shell">
+    <div class="viewport" data-height="13450">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <div class="project-meta layer" style="left:501px;top:420px;width:1800px">
+          <p class="project-kicker">01 / Graphic Series</p>
+          <h1 class="project-heading">Fugitive Moments</h1>
+          <p class="project-desc">在秩序与自由的边界，捕捉光影交汇的刹那。<br>这是一场感性驱动的平面实验，将碎片化的生命力，重构为永恒的视觉序列。</p>
+        </div>
+        <div class="moments-carousel layer" style="left:322px;top:780px;width:2343px;height:720px" aria-label="Fugitive Moments carousel" tabindex="0">
+          <div class="moments-track">
+            <button class="moments-slide" type="button" data-index="0" data-target="moments-work-0" aria-label="Select Freedom">
+              <img src="assets/moments-00.png" alt="Freedom">
+              <span>Freedom</span>
+            </button>
+            <button class="moments-slide" type="button" data-index="1" data-target="moments-work-1" aria-label="Select Light">
+              <img src="assets/moments-01.png" alt="Light">
+              <span>Light</span>
+            </button>
+            <button class="moments-slide" type="button" data-index="2" data-target="moments-work-2" aria-label="Select Shadow">
+              <img src="assets/moments-02.png" alt="Shadow">
+              <span>Shadow</span>
+            </button>
+            <button class="moments-slide" type="button" data-index="3" data-target="moments-work-3" aria-label="Select Motion">
+              <img src="assets/moments-03.png" alt="Motion">
+              <span>Motion</span>
+            </button>
+            <button class="moments-slide" type="button" data-index="4" data-target="moments-work-4" aria-label="Select Drift">
+              <img src="assets/moments-04.png" alt="Drift">
+              <span>Drift</span>
+            </button>
+            <button class="moments-slide" type="button" data-index="5" data-target="moments-work-5" aria-label="Select Trace">
+              <img src="assets/moments-05.png" alt="Trace">
+              <span>Trace</span>
+            </button>
+            <button class="moments-slide" type="button" data-index="6" data-target="moments-work-6" aria-label="Select Echo">
+              <img src="assets/moments-06.png" alt="Echo">
+              <span>Echo</span>
+            </button>
+            <button class="moments-slide" type="button" data-index="7" data-target="moments-work-7" aria-label="Select Stillness">
+              <img src="assets/moments-07.png" alt="Stillness">
+              <span>Stillness</span>
+            </button>
+          </div>
+          <button class="moments-control prev" type="button" aria-label="Previous work">‹</button>
+          <button class="moments-control next" type="button" aria-label="Next work">›</button>
+        </div>
+        <p class="project-index layer" style="left:501px;top:1540px;width:1984px">Selected Works / 2024-2026</p>
+        <img id="moments-work-0" class="layer project-card" style="left:501px;top:1750px;width:1984px;height:1116px" src="assets/moments-00.png" alt="Fugitive Moments cover">
+        <img id="moments-work-1" class="layer project-card" style="left:501px;top:3238px;width:1984px;height:1116px" src="assets/moments-01.png" alt="Fugitive Moments 01">
+        <img id="moments-work-2" class="layer project-card" style="left:501px;top:4663px;width:1984px;height:1116px" src="assets/moments-02.png" alt="Fugitive Moments 02">
+        <img id="moments-work-3" class="layer project-card" style="left:501px;top:6090px;width:1984px;height:1116px" src="assets/moments-03.png" alt="Fugitive Moments 03">
+        <img id="moments-work-4" class="layer project-card" style="left:501px;top:7515px;width:1984px;height:1116px" src="assets/moments-04.png" alt="Fugitive Moments 04">
+        <img id="moments-work-5" class="layer project-card" style="left:501px;top:8942px;width:1984px;height:1116px" src="assets/moments-05.png" alt="Fugitive Moments 05">
+        <img id="moments-work-6" class="layer project-card" style="left:501px;top:10368px;width:1984px;height:1116px" src="assets/moments-06.png" alt="Fugitive Moments 06">
+        <img id="moments-work-7" class="layer project-card" style="left:501px;top:11967px;width:1984px;height:1116px" src="assets/moments-07.png" alt="Fugitive Moments ending">
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-work2" data-title="作品2">
+<main class="page-shell">
+    <div class="viewport" data-height="3560">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <div class="project-meta layer work-side-meta" style="left:250px;top:2530px;width:1360px">
+          <p class="project-kicker">02 / Advertising</p>
+          <h1 class="project-heading">Spring Collection</h1>
+          <p class="project-desc">春天总是在不经意间到来。<br>微风穿过树梢，光影洒落叶间，空气中弥漫着湿润而清新的气息。<br>本次系列以「流动」为设计语言，将自然的律动、柔和的色彩与模糊的动态影像结合，试图捕捉那些稍纵即逝却令人难忘的瞬间。<br>每一帧画面，都像一次深呼吸，将春日最纯粹的情绪缓缓展开。</p>
+        </div>
+        <img class="layer project-card" style="left:880px;top:504px;width:1228px;height:1842px" src="assets/spring.png" alt="Spring Collection">
+        <p class="caption layer" style="left:880px;top:2346px;width:1228px;height:192px">Spring Collection</p>
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-work3" data-title="作品3">
+<main class="page-shell">
+    <div class="viewport" data-height="3560">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <div class="project-meta layer work-side-meta" style="left:250px;top:2530px;width:1360px">
+          <p class="project-kicker">03 / Fashion Poster</p>
+          <h1 class="project-heading">Maison Margiela FW</h1>
+          <p class="project-desc">本项目以 Maison Margiela 的品牌视觉为创作灵感，探索时尚传播中的平面设计语言。整体采用 Editorial 排版方式，将摄影、文字与留白作为主要设计元素，通过清晰的信息层级与具有节奏感的构图，营造国际时尚杂志般的阅读体验。设计过程中注重品牌调性的统一表达，在保持简洁克制的同时，强化视觉冲击力，使海报既具有商业传播属性，也兼具艺术化的视觉表现。</p>
+        </div>
+        <img class="layer project-card" style="left:880px;top:504px;width:1228px;height:1842px" src="assets/margiela.png" alt="Maison Margiela Fashion Week">
+        <p class="caption layer" style="left:880px;top:2346px;width:1228px;height:192px">MaisionMargiela Fashion week</p>
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-work4" data-title="作品4">
+<main class="page-shell">
+    <div class="viewport" data-height="3600">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <div class="project-meta layer work4-meta" style="left:593px;top:2180px;width:1800px;text-align:center">
+          <p class="project-kicker">04 / Brand Campaign</p>
+          <h1 class="project-heading">YSL Womens Summer 26</h1>
+          <p class="project-desc">本项目为 Yves Saint Laurent 2026 夏季女装系列的视觉创意与版式实验。设计核心源于品牌内核中“双重性（Duality）”的探讨，即力量（Power）与优雅（Grace）之间的张力平衡。<br><br>视觉表达上，我采用了极简的高反差黑白摄影，建立了一套严格的对称式版式系统。在《POWER》篇章中，通过倒置的构图打破常规视域，传达一种柔软却不可动摇的内在生命力；而在《GRACE》篇章中，则通过模特深邃的目光与群像的层次，建立经典的法式优雅。</p>
+          <p class="work4-reflection"><strong>交互思考：</strong><br>在作品集的呈现上，我刻意采用了并置的对称结构，并加入了微动态悬浮交互（Hover Effect）。这种设计不仅是为了方便用户直观比较两者的画面语言，更是为了在数字化媒介中重塑平面海报的“重量感”，让观众在鼠标悬停的瞬间，感知到视觉背后那种“流动的优雅”。</p>
+        </div>
+        <img class="layer project-card" style="left:298px;top:504px;width:977px;height:1465px" src="assets/ysl-power.png" alt="YSL Power">
+        <img class="layer project-card" style="left:1711px;top:504px;width:977px;height:1465px" src="assets/ysl-grace.png" alt="YSL Grace">
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-work5" data-title="作品5">
+<main class="page-shell">
+    <div class="viewport" data-height="2860">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <div class="project-meta layer" style="left:237px;top:1940px;width:1840px">
+          <p class="project-kicker">05 / Competition Works</p>
+          <h1 class="project-heading">Advertising Art Competition</h1>
+          <p class="project-desc" data-series-desc>围绕 SKULLPANDA 系列展开的感性叙事实验。设计逻辑基于“玩具改变我们”的情感内核，采用柔和的低饱和色彩与多维分层的版式，探讨潮流玩具作为情感寄托的身份认同。文字与画面的交织，旨在呈现一种属于当代青年的“平静下的力量感”。</p>
+          <template data-series-copy="popmart">围绕 SKULLPANDA 系列展开的感性叙事实验。设计逻辑基于“玩具改变我们”的情感内核，采用柔和的低饱和色彩与多维分层的版式，探讨潮流玩具作为情感寄托的身份认同。文字与画面的交织，旨在呈现一种属于当代青年的“平静下的力量感”。</template>
+          <template data-series-copy="wahaha">本项目为娃哈哈“咖位”咖啡的年轻化重构。以高饱和度的波普插画风格（Pop Art）为核心，将复古潮流与现代职场心态融合。通过明快的色彩撞击与灵动的角色设计，精准捕捉 Z 世代“自带咖位”的自信姿态，实现品牌从传统饮品向潮流符号的视觉跨越。</template>
+          <div class="work5-series-tabs" role="tablist" aria-label="Work 5 series">
+            <button class="work5-series-tab is-active" type="button" role="tab" aria-selected="true" data-series="popmart">POP MART</button>
+            <button class="work5-series-tab" type="button" role="tab" aria-selected="false" data-series="wahaha">WAHAHA KAWEI</button>
+          </div>
+        </div>
+        <img class="layer project-card popmart-swap-card work5-series-card" data-series="popmart" data-slot="left" style="left:237px;top:622px;width:749px;height:1059px" src="assets/popmart-5.jpg" alt="Award 5">
+        <img class="layer project-card popmart-swap-card work5-series-card" data-series="popmart" data-slot="center" style="left:1036px;top:504px;width:915px;height:1294px" src="assets/popmart-3.jpg" alt="Award 3">
+        <img class="layer project-card popmart-swap-card work5-series-card" data-series="popmart" data-slot="right" style="left:2000px;top:622px;width:749px;height:1059px" src="assets/popmart-4.jpg" alt="Award 4">
+        <img class="layer project-card work5-series-card work5-wahaha-card work5-series-hidden" data-series="wahaha" style="left:391px;top:504px;width:884px;height:1251px" src="assets/wahaha-1.jpg" alt="Advertising work 1">
+        <img class="layer project-card work5-series-card work5-wahaha-card work5-series-hidden" data-series="wahaha" style="left:1711px;top:504px;width:884px;height:1251px" src="assets/wahaha-2.jpg" alt="Advertising work 2">
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-work6" data-title="作品6">
+<main class="page-shell">
+    <div class="viewport" data-height="5030">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <div class="project-meta layer" style="left:363px;top:4405px;width:1780px">
+          <p class="project-kicker">06 / Brand Calendar</p>
+          <h1 class="project-heading">Dainese Brand Calendar</h1>
+          <p class="project-desc">参与 Dainese 品牌年度月历设计项目，负责月历版式设计、视觉编排及品牌素材整合。根据不同月份的产品摄影与宣传主题，对文字信息、日期模块及画面比例进行优化，确保整体视觉风格统一且具有良好的可读性。项目最终应用于品牌宣传及客户赠品，兼顾品牌传播与商业实用价值。</p>
+        </div>
+        <img class="layer project-card" style="left:363px;top:541px;width:547px;height:1185px" src="assets/dainese-1.jpg" alt="January">
+        <img class="layer project-card" style="left:934px;top:541px;width:547px;height:1185px" src="assets/dainese-2.jpg" alt="February">
+        <img class="layer project-card" style="left:1506px;top:541px;width:547px;height:1185px" src="assets/dainese-3.jpg" alt="March">
+        <img class="layer project-card" style="left:2073px;top:541px;width:547px;height:1185px" src="assets/dainese-4.jpg" alt="April">
+        <img class="layer project-card" style="left:367px;top:1736px;width:547px;height:1185px" src="assets/dainese-5.jpg" alt="May">
+        <img class="layer project-card" style="left:934px;top:1736px;width:548px;height:1186px" src="assets/dainese-6.jpg" alt="June">
+        <img class="layer project-card" style="left:1506px;top:1736px;width:547px;height:1185px" src="assets/dainese-7.jpg" alt="July">
+        <img class="layer project-card" style="left:2073px;top:1736px;width:548px;height:1186px" src="assets/dainese-8.jpg" alt="August">
+        <img class="layer project-card" style="left:367px;top:2931px;width:547px;height:1185px" src="assets/dainese-9.jpg" alt="September">
+        <img class="layer project-card" style="left:934px;top:2931px;width:547px;height:1185px" src="assets/dainese-10.jpg" alt="October">
+        <img class="layer project-card" style="left:1506px;top:2931px;width:547px;height:1185px" src="assets/dainese-11.jpg" alt="November">
+        <img class="layer project-card" style="left:2077px;top:2931px;width:547px;height:1185px" src="assets/dainese-12.jpg" alt="December">
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-work7" data-title="作品7">
+<main class="page-shell">
+    <div class="viewport" data-height="2410">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <video class="layer project-video" style="left:397px;top:538px;width:2194px;height:1031px" src="assets/video-1.mp4" poster="assets/video-cover-1.webp" controls muted playsinline></video>
+        <div class="project-meta layer" style="left:397px;top:1788px;width:2140px">
+          <p class="project-kicker">07 / Motion Collection</p>
+          <h1 class="project-heading">2025 Collection of 2D Animated Works</h1>
+          <p class="project-desc">设计不应止于平面。在这一系列作品中，我通过 AE 的动态处理，打破了传统海报的边界。从“Spring Collection”的轻盈流动到“Summer 26”的力量与优雅，每一帧都在探索设计、光影与时间之间的关系。</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-work8" data-title="作品8">
+<main class="page-shell">
+    <div class="viewport" data-height="2340">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <video class="layer project-video" style="left:396px;top:538px;width:2194px;height:983px" src="assets/video-3.mp4" poster="assets/video-cover-3.webp" controls muted playsinline></video>
+        <div class="project-meta layer" style="left:396px;top:1718px;width:2040px">
+          <p class="project-kicker">08 / Film Club</p>
+          <h1 class="project-heading">School Film Club Food Video</h1>
+          <p class="project-desc">本项目是我在2021年时，在学校的影视映像社团负责的原创生活栏目。回看这个作品，它承载了我对后期制作最原始的热爱：一种“用镜头剪辑生活”的单纯愿望，也是我早期对视频叙事（Storytelling）和视觉美学（Aesthetics）的一次完整尝试。</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</template>
+
+<template id="page-work9" data-title="作品9">
+<main class="page-shell">
+    <div class="viewport" data-height="8240">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <div class="project-meta layer" style="left:249px;top:374px;width:1820px">
+          <p class="project-kicker">09 / AIGC Narrative</p>
+          <h1 class="project-heading">School Course Project</h1>
+          <p class="project-desc">运用 GPT 与 Midjourney 制作的空间叙事剧情，Digital Awakening 是一场基于 AIGC 的空间叙事实验。<br>在数据与虚无的重组中，捕捉意识觉醒的刹那。</p>
+        </div>
+        <img class="layer project-card" style="left:249px;top:810px;width:1464px;height:820px" src="assets/ai 1.jpg" alt="AIGC scene 1">
+        <p class="aigc-text project-text layer" style="left:1810px;top:906px;width:820px;height:500px"><span class="aigc-step">01</span><span class="aigc-title">Void Field</span><span class="aigc-copy">在一个无重力的数字维度，空间不再是边界，而是意识的延展。</span></p>
+        <p class="aigc-text project-text layer" style="left:250px;top:1948px;width:880px;height:690px"><span class="aigc-step">02</span><span class="aigc-title">Signal Walk</span><span class="aigc-copy">她身着黑色长裙，独自行走于碎裂的平台之上。数据粒子在脚下浮动，反射的镜面结构像记忆断面的重组。四周没有声音，只有来自核心的光。</span></p>
+        <img class="layer project-card" style="left:1241px;top:1877px;width:1496px;height:839px" src="assets/ai 2.jpg" alt="AIGC scene 2">
+        <img class="layer project-card" style="left:250px;top:3117px;width:1463px;height:820px" src="assets/ai 3.jpg" alt="AIGC scene 3">
+        <p class="aigc-text project-text layer" style="left:1810px;top:3226px;width:860px;height:510px"><span class="aigc-step">03</span><span class="aigc-title">Core Ascent</span><span class="aigc-copy">她靠近数据球，缓缓走上数据楼梯。每一步，都像在穿越一个程序的内核。</span></p>
+        <p class="aigc-text project-text layer" style="left:250px;top:4510px;width:820px;height:390px"><span class="aigc-step">04</span><span class="aigc-title">Data Mirror</span><span class="aigc-copy">走过楼梯后，她站在由数据构成的镜子前。</span></p>
+        <img class="layer project-card" style="left:1241px;top:4357px;width:1479px;height:828px" src="assets/ai 4.jpg" alt="AIGC scene 4">
+        <img class="layer project-card" style="left:250px;top:5597px;width:1473px;height:826px" src="assets/ai 5.jpg" alt="AIGC scene 5">
+        <p class="aigc-text project-text layer" style="left:1810px;top:5688px;width:880px;height:600px"><span class="aigc-step">05</span><span class="aigc-title">Awakening Touch</span><span class="aigc-copy">她缓缓伸出右手触碰镜子。镜面开始散发光芒，而她触碰的不只是镜子里的光，更是自身未被唤醒的意识。</span></p>
+        <p class="aigc-text project-text layer" style="left:250px;top:6922px;width:900px;height:690px"><span class="aigc-step">06</span><span class="aigc-title">Memory Core</span><span class="aigc-copy">光芒散去，她终于站在核心面前，仿佛凝望着一个巨大的镜子。镜中映出的不再是身体，而是数据、记忆，以及她所遗忘的自己。</span></p>
+        <img class="layer project-card" style="left:1241px;top:6837px;width:1480px;height:829px" src="assets/ai 6.jpg" alt="AIGC scene 6">
+        <p class="aigc-text project-text project-quote is-centered layer" style="left:623px;top:7937px;width:1742px;height:167px;text-align:center">“她不是来改变这个世界，她，是这个世界的一部分。”</p>
+      </section>
+    </div>
+  </main>
+</template>
+  <script>
+
+(function () {
+  var pages = {
+    "index.html": "home",
+    "home.html": "home",
+    "menu.html": "menu",
+    "summary.html": "summary",
+    "work1.html": "work1",
+    "work2.html": "work2",
+    "work3.html": "work3",
+    "work4.html": "work4",
+    "work5.html": "work5",
+    "work6.html": "work6",
+    "work7.html": "work7",
+    "work8.html": "work8",
+    "work9.html": "work9"
+  };
+  var currentPage = "home";
+  var app = document.getElementById("single-app");
+  var MOTION = {
+    ease: "cubic-bezier(.22, .78, .18, 1)",
+    softEase: "cubic-bezier(.25, .72, .2, 1)",
+    bridge: 1680,
+    chrome: 980,
+    card: 1500,
+    home: 1180
+  };
+
+  function pageFromHref(href) {
+    try {
+      var url = new URL(href, window.location.href);
+      var file = (url.pathname.split("/").pop() || "home.html").toLowerCase();
+      return pages[file] || "";
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function filenameForPage(page) {
+    return page === "home" ? "home.html" : page + ".html";
+  }
+
+  function isWorkPage(page) {
+    return /^work[1-9]$/.test(page || currentPage);
+  }
+
+  function useStableRoute(fromPage, toPage) {
+    return fromPage === "home" || fromPage === "summary" || toPage === "home" || toPage === "summary";
+  }
+
+  function assetKeyFromUrl(value) {
+    if (!value) return "";
+    try {
+      var url = new URL(value, window.location.href);
+      var name = decodeURIComponent(url.pathname.split("/").pop() || "");
+      return name.toLowerCase().replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function mediaAssetKey(media) {
+    if (!media) return "";
+    var tag = media.tagName ? media.tagName.toLowerCase() : "";
+    if (tag === "video") return assetKeyFromUrl(media.getAttribute("poster") || media.currentSrc || media.getAttribute("src"));
+    return assetKeyFromUrl(media.currentSrc || media.getAttribute("src"));
+  }
+
+  function elementAssetKey(element) {
+    if (!element) return "";
+    if (element.matches && element.matches("img, video")) return mediaAssetKey(element);
+    return mediaAssetKey(element.querySelector && element.querySelector("img, video"));
+  }
+
+  function visibleMedia(media) {
+    if (!media) return false;
+    var style = window.getComputedStyle(media);
+    if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) return false;
+    var rect = media.getBoundingClientRect();
+    return rect.width > 2 && rect.height > 2;
+  }
+
+  function preferredSourceElementFromMedia(media) {
+    return media && (media.closest(".summary-card, .summary-bag, .menu-card, .home-piece, .moments-slide") || media);
+  }
+
+  function rotationFromTransform(transform) {
+    if (!transform || transform === "none") return 0;
+    var values = transform.match(/matrix\(([^)]+)\)/);
+    if (!values) return 0;
+    var parts = values[1].split(",").map(function (value) { return Number(value.trim()); });
+    if (parts.length < 2 || !isFinite(parts[0]) || !isFinite(parts[1])) return 0;
+    return Math.atan2(parts[1], parts[0]) * 180 / Math.PI;
+  }
+
+  function frameTransform(dx, dy, sx, sy, angle) {
+    return "translate3d(" + dx + "px, " + dy + "px, 0) rotate(" + angle + "deg) scale(" + sx + ", " + sy + ")";
+  }
+
+  function baseAngleFromStyle(element, fallback) {
+    var transform = element && element.style && element.style.transform || "";
+    var match = transform.match(/rotate\((-?[0-9.]+)deg\)/);
+    return match ? Number(match[1]) : fallback || 0;
+  }
+
+  function visualState(element) {
+    if (!element) return null;
+    var computed = window.getComputedStyle(element);
+    var angle = rotationFromTransform(computed.transform);
+    var artboard = element.closest && element.closest(".artboard");
+    var viewport = element.closest && element.closest(".viewport");
+    if (artboard && viewport && !element.classList.contains("fixed-chrome-clone")) {
+      var artboardRect = artboard.getBoundingClientRect();
+      var scale = Number(viewport.dataset.scale || 1);
+      var styledLeft = parseFloat(element.style.left);
+      var styledTop = parseFloat(element.style.top);
+      var styledWidth = parseFloat(element.style.width);
+      var styledHeight = parseFloat(element.style.height);
+      var rect = element.getBoundingClientRect();
+      var left = isFinite(styledLeft) ? styledLeft : element.offsetLeft;
+      var top = isFinite(styledTop) ? styledTop : element.offsetTop;
+      var width = isFinite(styledWidth) ? styledWidth : (element.offsetWidth || rect.width / scale);
+      var height = isFinite(styledHeight) ? styledHeight : (element.offsetHeight || rect.height / scale);
+      if (width <= 2 || height <= 2) return null;
+      return { left: artboardRect.left + left * scale, top: artboardRect.top + top * scale, width: width * scale, height: height * scale, angle: angle };
+    }
+    var rect = element.getBoundingClientRect();
+    if (rect.width <= 2 || rect.height <= 2) return null;
+    return { left: rect.left, top: rect.top, width: rect.width, height: rect.height, angle: angle };
+  }
+
+  function bridgeRecord(key, element, kind) {
+    var state = visualState(element);
+    if (!key || !state) return null;
+    return { key: key, state: state, kind: kind || "" };
+  }
+
+  function collectSources(link, targetPage) {
+    if (useStableRoute(currentPage, targetPage)) return [];
+    var sources = [];
+    var used = {};
+
+    function addElement(element) {
+      var key = elementAssetKey(element);
+      if (!key || key === "logo" || used[key]) return;
+      used[key] = true;
+      sources.push({ key: key, element: element, kind: "asset" });
+    }
+
+    if ((currentPage === "home" && targetPage === "menu") || (currentPage === "menu" && targetPage === "home")) {
+      app.querySelectorAll(".home-piece, .menu-card").forEach(addElement);
+    } else if (currentPage === "home" && targetPage === "summary") {
+      var bag = app.querySelector('[data-piece="bag"]');
+      if (bag) addElement(bag);
+    } else if (currentPage === "menu" && targetPage === "summary") {
+      var menuBag = Array.prototype.find.call(app.querySelectorAll(".menu-card"), function (item) {
+        return elementAssetKey(item) === "portfolio-bag";
+      });
+      if (menuBag) addElement(menuBag);
+    } else if (targetPage === "summary" && isWorkPage(currentPage)) {
+      var first = Array.prototype.find.call(app.querySelectorAll(".artboard > .project-card, .artboard > .project-video"), visibleMedia);
+      if (first) addElement(first);
+    } else if (targetPage === "home") {
+      app.querySelectorAll(".summary-bag, .menu-card").forEach(addElement);
+    } else if (link) {
+      var media = link.querySelector && link.querySelector("img, video");
+      if (media && visibleMedia(media)) addElement(preferredSourceElementFromMedia(media));
+    }
+
+    return sources.map(function (source) { return bridgeRecord(source.key, source.element, source.kind); }).filter(Boolean);
+  }
+
+  function targetForKey(key) {
+    if (key === "chrome-logo") return document.querySelector(".fixed-chrome-clone.logo");
+    var groups = [".summary-bag", ".home-piece", ".menu-card", ".summary-card", ".artboard > .project-card", ".artboard > .project-video", ".moments-slide", ".artboard img, .artboard video"];
+    for (var i = 0; i < groups.length; i += 1) {
+      var items = app.querySelectorAll(groups[i]);
+      for (var j = 0; j < items.length; j += 1) {
+        var item = items[j];
+        if (elementAssetKey(item) === key) return item.matches("img, video") ? preferredSourceElementFromMedia(item) : item;
+      }
+    }
+    return null;
+  }
+
+  function viewportScaleForElement(element) {
+    var viewport = element && element.closest && element.closest(".viewport");
+    return Number(viewport && viewport.dataset.scale || 1);
+  }
+
+  function animateInPlace(record, target, options) {
+    var targetState = visualState(target);
+    if (!record || !targetState) return;
+    var scale = viewportScaleForElement(target);
+    var baseTransform = target.style.transform || "";
+    var baseOrigin = target.style.transformOrigin || "";
+    var dx = (record.state.left - targetState.left) / scale;
+    var dy = (record.state.top - targetState.top) / scale;
+    var sx = record.state.width / targetState.width;
+    var sy = record.state.height / targetState.height;
+    var from = "translate(" + dx + "px, " + dy + "px) rotate(" + record.state.angle + "deg) scale(" + sx + ", " + sy + ")";
+    var mid = "translate(" + (-dx * .025) + "px, " + (-dy * .025) + "px) rotate(" + targetState.angle + "deg) scale(1.012)";
+    var to = "translate(0, 0) rotate(" + targetState.angle + "deg) scale(1)";
+    target.style.transformOrigin = "top left";
+    var animation = target.animate([{ opacity: 1, transform: from }, { opacity: 1, transform: mid, offset: .84 }, { opacity: 1, transform: to }], {
+      duration: options && options.duration || 1120,
+      easing: MOTION.ease,
+      fill: "both"
+    });
+    animation.onfinish = function () {
+      animation.cancel();
+      target.style.transformOrigin = baseOrigin;
+      target.style.transform = baseTransform;
+    };
+  }
+
+  function makeBridgeItem(record) {
+    var target = targetForKey(record.key);
+    var media = target && (target.matches("img, video") ? target : target.querySelector("img, video"));
+    var item = document.createElement("div");
+    item.className = "motion-bridge-item" + (record.kind === "logo" ? " is-logo" : "");
+    item.style.left = record.state.left + "px";
+    item.style.top = record.state.top + "px";
+    item.style.width = record.state.width + "px";
+    item.style.height = record.state.height + "px";
+    item.style.transform = "rotate(" + record.state.angle + "deg)";
+    if (target) item.style.boxShadow = window.getComputedStyle(target).boxShadow;
+    if (media) {
+      var img = document.createElement("img");
+      img.src = media.tagName.toLowerCase() === "video" ? media.getAttribute("poster") : media.getAttribute("src");
+      img.alt = "";
+      img.style.objectFit = record.kind === "logo" ? "contain" : (getComputedStyle(media).objectFit || "cover");
+      item.appendChild(img);
+    }
+    return item;
+  }
+
+  function animateBridge(records) {
+    if (!records.length) return;
+    document.body.classList.add("has-motion-bridge");
+    var layer = document.createElement("div");
+    layer.className = "motion-bridge-layer";
+    document.body.appendChild(layer);
+    var running = 0;
+
+    records.forEach(function (record) {
+      var target = targetForKey(record.key);
+      if (!target) return;
+      var targetState = visualState(target);
+      if (!targetState) {
+        target.classList.remove("motion-bridge-target-hidden");
+        target.classList.remove("home-piece-waiting");
+        return;
+      }
+      var item = makeBridgeItem(record);
+      if (!item.firstChild) {
+        target.classList.remove("motion-bridge-target-hidden");
+        target.classList.remove("home-piece-waiting");
+        return;
+      }
+      target.classList.add("motion-bridge-target-hidden");
+      layer.appendChild(item);
+      item.style.left = targetState.left + "px";
+      item.style.top = targetState.top + "px";
+      item.style.width = targetState.width + "px";
+      item.style.height = targetState.height + "px";
+      item.style.transform = "translate3d(0, 0, 0) rotate(" + targetState.angle + "deg) scale(1)";
+      var dx = record.state.left - targetState.left;
+      var dy = record.state.top - targetState.top;
+      var sx = record.state.width / targetState.width;
+      var sy = record.state.height / targetState.height;
+      var from = frameTransform(dx, dy, sx, sy, record.state.angle);
+      var to = frameTransform(0, 0, 1, 1, targetState.angle);
+      running += 1;
+      item.style.opacity = "1";
+      item.style.filter = "blur(.18px)";
+      item.style.transform = from;
+      item.style.transition = "none";
+      item.offsetHeight;
+      window.requestAnimationFrame(function () {
+        item.style.transition = "transform " + MOTION.bridge + "ms " + MOTION.ease + ", filter " + Math.round(MOTION.bridge * .72) + "ms " + MOTION.softEase;
+        item.style.transform = to;
+        item.style.filter = "blur(0)";
+      });
+      window.setTimeout(function () {
+        target.classList.remove("motion-bridge-target-hidden");
+        target.classList.remove("home-piece-waiting");
+        item.remove();
+        running -= 1;
+        if (running <= 0) {
+          layer.remove();
+          document.body.classList.remove("has-motion-bridge");
+        }
+      }, MOTION.bridge + 140);
+    });
+
+    window.setTimeout(function () {
+      document.body.classList.remove("has-motion-bridge");
+      if (!layer.children.length) layer.remove();
+    }, MOTION.bridge + 180);
+  }
+
+  function prehideBridgeTargets(records) {
+    (records || []).forEach(function (record) {
+      var target = targetForKey(record.key);
+      if (target) target.classList.add("motion-bridge-target-hidden");
+    });
+  }
+
+  function prehideIncomingPage(page, previousPage) {
+    if (page === "home" && previousPage !== page) {
+      app.querySelectorAll(".home-stack").forEach(function (stack) {
+        stack.classList.add("home-stack-waiting");
+      });
+    }
+  }
+
+  function prepareSummaryEntrance() {
+    if (currentPage !== "summary") return;
+    app.querySelectorAll(".summary-card").forEach(function (card) {
+      card.classList.add("summary-card-waiting");
+    });
+  }
+
+  function animateSummaryCards(records) {
+    if (currentPage !== "summary") return;
+    var cards = Array.prototype.slice.call(app.querySelectorAll(".summary-card"));
+    if (!cards.some(function (card) { return card.classList.contains("summary-card-waiting"); })) return;
+    cards.forEach(function (card, index) {
+      var baseTransform = card.style.transform || "none";
+      card.classList.remove("summary-card-waiting");
+      var animation = card.animate([
+        { opacity: 0, filter: "blur(3px)", transform: baseTransform + " translate3d(0, 26px, 0) scale(.985)" },
+        { opacity: 1, filter: "blur(0)", transform: baseTransform }
+      ], {
+        duration: 680,
+        delay: 260 + index * 95,
+        easing: MOTION.softEase,
+        fill: "both"
+      });
+      animation.onfinish = function () {
+        animation.cancel();
+        card.style.transform = baseTransform;
+      };
+    });
+  }
+
+  function recordsHaveHomePiece(records) {
+    return (records || []).some(function (record) {
+      var target = record && targetForKey(record.key);
+      return target && target.classList && target.classList.contains("home-piece");
+    });
+  }
+
+  function animateHomePiecesEntrance(records) {
+    if (currentPage !== "home") return;
+    app.querySelectorAll(".home-piece").forEach(function (piece) {
+      piece.style.transform = piece.style.transform || "none";
+      piece.classList.remove("home-piece-waiting");
+    });
+    var delay = (records || []).length ? Math.round(MOTION.bridge * .78) : 180;
+    app.querySelectorAll(".home-stack").forEach(function (stack) {
+      window.setTimeout(function () {
+        stack.classList.remove("home-stack-waiting");
+        stack.classList.add("home-stack-entering");
+        window.setTimeout(function () {
+          stack.classList.remove("home-stack-entering");
+        }, 760);
+      }, delay);
+    });
+  }
+
+  function chromeKey(item) {
+    if (!item) return "";
+    if (item.classList && item.classList.contains("logo")) return "logo";
+    return "nav:" + (item.textContent || "").trim().toLowerCase();
+  }
+
+  function captureChromeStates() {
+    var states = {};
+    document.querySelectorAll(".fixed-chrome-clone").forEach(function (item) {
+      var key = chromeKey(item);
+      var rect = item.getBoundingClientRect();
+      if (!key || rect.width <= 1 || rect.height <= 1) return;
+      states[key] = {
+        left: item.style.left || (rect.left + "px"),
+        top: item.style.top || (rect.top + "px"),
+        width: item.style.width,
+        height: item.style.height,
+        transform: item.style.transform || window.getComputedStyle(item).transform,
+        opacity: Number(window.getComputedStyle(item).opacity || 1)
+      };
+    });
+    return states;
+  }
+
+  function animateFixedChromeFrom(previous) {
+    if (!previous) return;
+    document.querySelectorAll(".fixed-chrome-clone").forEach(function (item) {
+      var key = chromeKey(item);
+      var from = previous[key];
+      var rect = item.getBoundingClientRect();
+      var finalFrame = {
+        left: item.style.left,
+        top: item.style.top,
+        width: item.style.width,
+        height: item.style.height,
+        transform: item.style.transform,
+        opacity: 1
+      };
+      var firstFrame = from ? {
+        left: from.left,
+        top: from.top,
+        width: item.style.width,
+        height: item.style.height,
+        transform: from.transform === "none" ? item.style.transform : from.transform,
+        opacity: from.opacity
+      } : {
+        left: rect.left + "px",
+        top: (rect.top + 18) + "px",
+        width: item.style.width,
+        height: item.style.height,
+        transform: item.style.transform,
+        opacity: 0
+      };
+      var midFrame = from ? Object.assign({}, finalFrame, {
+        left: (parseFloat(finalFrame.left) + (parseFloat(firstFrame.left) - parseFloat(finalFrame.left)) * .18) + "px",
+        top: (parseFloat(finalFrame.top) + (parseFloat(firstFrame.top) - parseFloat(finalFrame.top)) * .18) + "px",
+        opacity: 1,
+        offset: .78
+      }) : Object.assign({}, finalFrame, { opacity: 1, offset: .78 });
+      var animation = item.animate([firstFrame, midFrame, Object.assign({}, finalFrame, { opacity: 1 })], {
+        duration: from ? MOTION.chrome : 620,
+        easing: from ? MOTION.softEase : "cubic-bezier(.2, .8, .2, 1)",
+        fill: "both"
+      });
+      animation.onfinish = function () {
+        animation.cancel();
+        item.style.opacity = "";
+      };
+    });
+  }
+
+  function createPageGhost() {
+    var shell = app.querySelector(".page-shell");
+    if (!shell) return null;
+    document.querySelectorAll(".page-ghost").forEach(function (ghost) { ghost.remove(); });
+    var ghost = shell.cloneNode(true);
+    ghost.classList.add("page-ghost");
+    ghost.style.setProperty("--ghost-scroll", (-window.pageYOffset) + "px");
+    ghost.querySelectorAll("a, button, video").forEach(function (item) {
+      item.removeAttribute("href");
+      item.setAttribute("tabindex", "-1");
+      if (item.pause) item.pause();
+    });
+    document.body.appendChild(ghost);
+    ghost.offsetHeight;
+    window.requestAnimationFrame(function () {
+      ghost.style.opacity = "0";
+      ghost.style.filter = "blur(.8px)";
+    });
+    window.setTimeout(function () {
+      ghost.remove();
+    }, 1280);
+    return ghost;
+  }
+
+  function fitBoards() {
+    document.querySelectorAll(".viewport").forEach(function (viewport) {
+      var h = Number(viewport.dataset.height || 3330);
+      var max = Number(viewport.dataset.max || window.innerWidth);
+      var available = Math.max(320, Math.min(window.innerWidth, max));
+      var scale = available / 2987;
+      viewport.dataset.scale = String(scale);
+      viewport.style.width = (2987 * scale) + "px";
+      viewport.style.height = (h * scale) + "px";
+      var artboard = viewport.querySelector(".artboard");
+      if (artboard) {
+        artboard.style.height = h + "px";
+        artboard.style.transform = "scale(" + scale + ")";
+      }
+    });
+    updateFixedChrome();
+  }
+
+  function setupFixedChrome() {
+    document.querySelectorAll(".fixed-chrome-layer, .fixed-work-backdrop").forEach(function (el) { el.remove(); });
+    var layer = document.createElement("div");
+    layer.className = "fixed-chrome-layer";
+    document.body.appendChild(layer);
+    app.querySelectorAll(".artboard > .logo, .artboard > .nav-text").forEach(function (item) {
+      item.classList.add("fixed-chrome-source");
+      var clone = item.cloneNode(true);
+      clone.classList.remove("fixed-chrome-source");
+      clone.classList.add("fixed-chrome-clone");
+      clone.dataset.sourceLeft = String(item.offsetLeft);
+      clone.dataset.sourceTop = String(item.offsetTop);
+      clone.dataset.sourceWidth = String(item.offsetWidth);
+      clone.dataset.sourceHeight = String(item.offsetHeight);
+      layer.appendChild(clone);
+    });
+    if (isWorkPage(currentPage)) {
+      var backdrop = document.createElement("div");
+      backdrop.className = "fixed-work-backdrop";
+      document.body.appendChild(backdrop);
+    }
+  }
+
+  function updateFixedChrome() {
+    var viewport = app.querySelector(".viewport");
+    if (!viewport) return;
+    var scale = Number(viewport.dataset.scale || 1);
+    var rect = viewport.getBoundingClientRect();
+    document.querySelectorAll(".fixed-chrome-clone").forEach(function (item) {
+      item.style.left = rect.left + Number(item.dataset.sourceLeft || 0) * scale + "px";
+      item.style.top = Number(item.dataset.sourceTop || 0) * scale + "px";
+      item.style.width = item.dataset.sourceWidth + "px";
+      item.style.height = item.dataset.sourceHeight + "px";
+      item.style.transform = "scale(" + scale + ")";
+    });
+  }
+
+  function setupHomeInteractions() {
+    app.querySelectorAll(".home-stack").forEach(function (stack) {
+      var pieces = stack.querySelectorAll(".home-piece[data-piece]");
+      pieces.forEach(function (piece) {
+        piece.dataset.baseTransform = piece.style.transform || "none";
+        if (piece.dataset.hoverTransform) piece.style.setProperty("--hover-transform", piece.dataset.hoverTransform);
+      });
+      function activate(piece) {
+        var name = piece.dataset.piece;
+        pieces.forEach(function (target) {
+          var active = target.dataset.piece === name;
+          target.classList.toggle("is-raised", active);
+          target.style.transform = active ? (target.dataset.hoverTransform || "scale(1.035)") : target.dataset.baseTransform;
+        });
+      }
+      pieces.forEach(function (piece) {
+        piece.addEventListener("pointerenter", function () { activate(piece); });
+        piece.addEventListener("mouseenter", function () { activate(piece); });
+      });
+      stack.addEventListener("pointerleave", function () {
+        pieces.forEach(function (target) {
+          target.classList.remove("is-raised");
+          target.style.transform = target.dataset.baseTransform;
+        });
+      });
+    });
+  }
+
+  function pulseBag(bag) {
+    bag.classList.remove("portfolio-bag-pressed");
+    bag.offsetHeight;
+    bag.classList.add("portfolio-bag-pressed");
+    window.setTimeout(function () {
+      bag.classList.remove("portfolio-bag-pressed");
+    }, 380);
+  }
+
+  function setupBagInteractions() {
+    app.querySelectorAll(".home-piece, .menu-card, .summary-bag").forEach(function (item) {
+      if (elementAssetKey(item) !== "portfolio-bag") return;
+      item.classList.add("portfolio-bag-interactive");
+      item.addEventListener("pointerdown", function () { pulseBag(item); });
+      item.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") pulseBag(item);
+      });
+      item.addEventListener("click", function (event) {
+        if (currentPage === "summary" && item.classList.contains("summary-bag")) {
+          event.preventDefault();
+          pulseBag(item);
+        }
+      });
+    });
+  }
+
+  function setupConceptItems() {
+    app.querySelectorAll(".concept-title").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var item = button.closest(".concept-item");
+        var isOpen = item.classList.contains("is-open");
+        app.querySelectorAll(".concept-item.is-open").forEach(function (openItem) { openItem.classList.remove("is-open"); });
+        if (!isOpen) item.classList.add("is-open");
+      });
+    });
+  }
+
+  function setupReveal() {
+    var items = app.querySelectorAll(".project-card, .project-video, .project-text, .project-meta");
+    items.forEach(function (item, index) {
+      item.classList.add("reveal-item");
+      item.style.transitionDelay = Math.min(index % 6, 4) * 45 + "ms";
+      item.classList.add("is-visible");
+    });
+  }
+
+  function setupMomentsCarousel() {
+    app.querySelectorAll(".moments-carousel").forEach(function (carousel) {
+      var slides = Array.prototype.slice.call(carousel.querySelectorAll(".moments-slide"));
+      var prev = carousel.querySelector(".moments-control.prev");
+      var next = carousel.querySelector(".moments-control.next");
+      var current = 0;
+      function wrap(index) { return (index % slides.length + slides.length) % slides.length; }
+      function signedOffset(index) {
+        var raw = index - current;
+        var half = slides.length / 2;
+        if (raw > half) raw -= slides.length;
+        if (raw < -half) raw += slides.length;
+        return raw;
+      }
+      function render() {
+        slides.forEach(function (slide, index) {
+          var offset = signedOffset(index);
+          var distance = Math.abs(offset);
+          var hidden = distance > 2;
+          slide.classList.toggle("is-active", distance === 0);
+          slide.tabIndex = hidden ? -1 : 0;
+          slide.style.pointerEvents = hidden ? "none" : "auto";
+          slide.style.zIndex = String(40 - distance * 10);
+          slide.style.opacity = String(hidden ? 0 : distance === 0 ? 1 : distance === 1 ? .72 : .38);
+          slide.style.filter = "blur(" + (hidden ? 10 : distance === 0 ? 0 : distance === 1 ? 2 : 5) + "px)";
+          slide.style.transform = "translate(-50%, -50%) translate(" + (offset * 430) + "px, " + (distance === 0 ? -12 : distance * 18) + "px) scale(" + (distance === 0 ? 1 : distance === 1 ? .78 : .58) + ")";
+        });
+      }
+      function go(step) { current = wrap(current + step); render(); }
+      slides.forEach(function (slide, index) {
+        slide.addEventListener("click", function () {
+          var offset = signedOffset(index);
+          if (offset !== 0) { current = wrap(current + offset); render(); }
+          window.setTimeout(function () {
+            var target = document.getElementById(slide.dataset.target || "");
+            if (target) window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.pageYOffset - 80), behavior: "smooth" });
+          }, 120);
+        });
+      });
+      if (prev) prev.addEventListener("click", function () { go(-1); });
+      if (next) next.addEventListener("click", function () { go(1); });
+      carousel.addEventListener("wheel", function (event) { event.preventDefault(); go(event.deltaY > 0 || event.deltaX > 0 ? 1 : -1); }, { passive: false });
+      render();
+    });
+  }
+
+  function setupPopmartSwap() {
+    var cards = Array.prototype.slice.call(app.querySelectorAll(".popmart-swap-card"));
+    if (!cards.length) return;
+    var slots = { left: { left: 237, top: 622, width: 749, height: 1059 }, center: { left: 1036, top: 504, width: 915, height: 1294 }, right: { left: 2000, top: 622, width: 749, height: 1059 } };
+    function apply(card, slotName) {
+      var slot = slots[slotName];
+      card.dataset.slot = slotName;
+      card.style.left = slot.left + "px";
+      card.style.top = slot.top + "px";
+      card.style.width = slot.width + "px";
+      card.style.height = slot.height + "px";
+    }
+    cards.forEach(function (card) {
+      apply(card, card.dataset.slot || "left");
+      card.addEventListener("click", function () {
+        if (card.dataset.slot === "center") return;
+        var center = cards.find(function (item) { return item.dataset.slot === "center"; });
+        if (center) { apply(center, card.dataset.slot); apply(card, "center"); }
+      });
+    });
+  }
+
+  function setupWork5SeriesTabs() {
+    var tabs = Array.prototype.slice.call(app.querySelectorAll(".work5-series-tab"));
+    if (!tabs.length) return;
+    var desc = app.querySelector("[data-series-desc]");
+    var copies = Array.prototype.slice.call(app.querySelectorAll("[data-series-copy]")).reduce(function (all, item) { all[item.dataset.seriesCopy] = item.innerHTML; return all; }, {});
+    function setSeries(series) {
+      var showPopmart = series === "popmart";
+      app.querySelectorAll('.work5-series-card[data-series="popmart"]').forEach(function (card) { card.classList.toggle("work5-series-hidden", !showPopmart); });
+      app.querySelectorAll('.work5-series-card[data-series="wahaha"]').forEach(function (card) { card.classList.toggle("work5-series-hidden", showPopmart); });
+      if (desc && copies[series]) desc.innerHTML = copies[series];
+    }
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var series = tab.dataset.series || "popmart";
+        tabs.forEach(function (item) {
+          var active = item === tab;
+          item.classList.toggle("is-active", active);
+          item.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        setSeries(series);
+      });
+    });
+    var active = tabs.find(function (tab) { return tab.classList.contains("is-active"); });
+    setSeries(active ? active.dataset.series : "popmart");
+  }
+
+  function initPage() {
+    setupFixedChrome();
+    fitBoards();
+    setupHomeInteractions();
+    setupBagInteractions();
+    setupConceptItems();
+    setupReveal();
+    setupMomentsCarousel();
+    setupPopmartSwap();
+    setupWork5SeriesTabs();
+    prepareSummaryEntrance();
+    window.requestAnimationFrame(function () {
+      fitBoards();
+      updateFixedChrome();
+    });
+  }
+
+  function renderPage(page, records, push) {
+    var template = document.getElementById("page-" + page);
+    if (!template) return;
+    var previousPage = currentPage;
+    var stableRoute = useStableRoute(previousPage, page);
+    if (stableRoute && previousPage !== page) {
+      app.classList.remove("route-fade-in");
+      app.classList.add("route-fade");
+    }
+    var previousChrome = captureChromeStates();
+    var ghost = previousPage === page || stableRoute ? null : createPageGhost();
+    currentPage = page;
+    document.title = template.dataset.title || document.title;
+    app.innerHTML = template.innerHTML;
+    window.scrollTo(0, 0);
+    if (!stableRoute) {
+      prehideIncomingPage(page, previousPage);
+      prehideBridgeTargets(records || []);
+    }
+    initPage();
+    window.requestAnimationFrame(function () {
+      fitBoards();
+      updateFixedChrome();
+      animateFixedChromeFrom(previousChrome);
+      if (!stableRoute) {
+        animateBridge(records || []);
+        window.requestAnimationFrame(function () {
+          animateSummaryCards(records || []);
+        });
+        if (previousPage !== page) animateHomePiecesEntrance(records || []);
+      }
+      if (stableRoute && previousPage !== page) {
+        window.requestAnimationFrame(function () {
+          app.classList.remove("route-fade");
+          app.classList.add("route-fade-in");
+          if (page === "summary") {
+            window.setTimeout(function () {
+              animateSummaryCards([]);
+            }, 120);
+          }
+          window.setTimeout(function () {
+            app.classList.remove("route-fade-in");
+          }, 560);
+        });
+      }
+    });
+    if (push) history.pushState({ page: page }, "", "#" + page);
+  }
+
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest && event.target.closest("a[href]");
+    if (!link) return;
+    var page = pageFromHref(link.getAttribute("href"));
+    if (!page) return;
+    event.preventDefault();
+    var records = collectSources(link, page);
+    renderPage(page, records, true);
+  }, true);
+
+  window.addEventListener("resize", function () { fitBoards(); });
+  window.addEventListener("scroll", updateFixedChrome, { passive: true });
+  window.addEventListener("popstate", function () {
+    var page = (location.hash || "#home").replace("#", "") || "home";
+    renderPage(page === "index" ? "home" : page, [], false);
+  });
+
+  renderPage((location.hash || "#home").replace("#", "") || "home", [], false);
+})();
+
+  </script>
+</body>
+</html>
