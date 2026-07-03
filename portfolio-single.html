@@ -701,6 +701,29 @@ img.home-piece,
   box-shadow: 0 34px 86px rgba(0, 0, 0, .62);
 }
 
+.mobile-video-toggle {
+  display: none;
+  z-index: 76;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, .72);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .46);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .48);
+  cursor: pointer;
+  transition: opacity .24s ease, transform .28s cubic-bezier(.2, .78, .18, 1), background .24s ease;
+}
+
+.mobile-video-toggle::before {
+  content: "";
+  width: 0;
+  height: 0;
+  margin-left: 9%;
+  border-top: 92px solid transparent;
+  border-bottom: 92px solid transparent;
+  border-left: 142px solid #fff;
+}
+
 .project-text {
   border-left: 2px solid rgba(105, 150, 231, .55);
   padding-left: 34px;
@@ -1080,6 +1103,12 @@ img.home-piece,
     width: 2200px !important;
   }
 
+  .work1-page .project-meta,
+  .work1-page .moments-carousel,
+  .work1-page .artboard > .project-card {
+    translate: 0 340px;
+  }
+
   .work1-page .project-kicker,
   .work9-page .project-kicker {
     font-size: 70px;
@@ -1114,6 +1143,7 @@ img.home-piece,
   .work9-page .project-meta {
     top: 300px !important;
     width: 2300px !important;
+    translate: 0 340px;
   }
 
   .work9-page .project-heading {
@@ -1128,7 +1158,33 @@ img.home-piece,
 
   .work9-page .project-card,
   .work9-page .project-text {
-    translate: 0 440px;
+    translate: 0 780px;
+  }
+
+  .project-video {
+    min-height: 1160px;
+  }
+
+  .project-video::-webkit-media-controls-panel {
+    min-height: 62px;
+  }
+
+  .project-video::-webkit-media-controls-play-button,
+  .project-video::-webkit-media-controls-start-playback-button,
+  .project-video::-webkit-media-controls-mute-button,
+  .project-video::-webkit-media-controls-fullscreen-button {
+    transform: scale(1.45);
+    transform-origin: center;
+  }
+
+  .mobile-video-toggle {
+    display: flex;
+  }
+
+  .mobile-video-toggle.is-playing {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(.92);
   }
 
   .work9-page .project-card,
@@ -2382,6 +2438,42 @@ img.home-piece,
     setSeries(active ? active.dataset.series : "popmart");
   }
 
+  function setupMobileVideoToggles() {
+    app.querySelectorAll(".mobile-video-toggle").forEach(function (button) { button.remove(); });
+    app.querySelectorAll(".project-video").forEach(function (video) {
+      var size = 520;
+      var left = parseFloat(video.style.left) || 0;
+      var top = parseFloat(video.style.top) || 0;
+      var width = parseFloat(video.style.width) || 0;
+      var height = parseFloat(video.style.height) || 0;
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "mobile-video-toggle layer";
+      button.setAttribute("aria-label", "Play video");
+      button.style.left = (left + width / 2 - size / 2) + "px";
+      button.style.top = (top + height / 2 - size / 2) + "px";
+      button.style.width = size + "px";
+      button.style.height = size + "px";
+      video.insertAdjacentElement("afterend", button);
+      function sync() {
+        button.classList.toggle("is-playing", !video.paused && !video.ended);
+      }
+      button.addEventListener("click", function () {
+        if (video.paused || video.ended) {
+          var play = video.play();
+          if (play && play.catch) play.catch(function () {});
+        } else {
+          video.pause();
+        }
+        sync();
+      });
+      video.addEventListener("play", sync);
+      video.addEventListener("pause", sync);
+      video.addEventListener("ended", sync);
+      sync();
+    });
+  }
+
   function initPage() {
     setupFixedChrome();
     fitBoards();
@@ -2392,6 +2484,7 @@ img.home-piece,
     setupMomentsCarousel();
     setupPopmartSwap();
     setupWork5SeriesTabs();
+    setupMobileVideoToggles();
     prepareSummaryEntrance();
     window.requestAnimationFrame(function () {
       fitBoards();
