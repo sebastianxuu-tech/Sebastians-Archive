@@ -1162,10 +1162,13 @@ img.home-piece,
   }
 
   .menu-page .menu-concept-card .concept-item {
+    position: relative;
     margin-bottom: 49px;
   }
 
   .menu-page .menu-concept-card .concept-title {
+    position: relative;
+    z-index: 4;
     display: inline-block;
     width: auto;
     max-width: 100%;
@@ -1179,19 +1182,28 @@ img.home-piece,
 
   .menu-page .menu-concept-card .concept-detail p {
     margin-top: 15px;
-    font-size: 32px;
-    line-height: 1.45;
+    font-size: 35px;
+    line-height: 1.42;
+    pointer-events: none;
+  }
+
+  .menu-page .menu-concept-card .concept-detail {
     pointer-events: none;
   }
 
   .menu-page .menu-concept-card .concept-detail a {
+    position: relative;
+    z-index: 2;
     margin-top: 18px;
-    font-size: 26px;
+    font-size: 29px;
   }
 
   .menu-page .menu-concept-card .concept-item.is-open .concept-detail {
-    max-height: 244px;
+    position: relative;
+    z-index: 1;
+    max-height: 284px;
     padding-bottom: 28px;
+    pointer-events: auto;
   }
 
   .menu-page .menu-concept-card .concept-title::after {
@@ -1811,7 +1823,7 @@ img.home-piece,
 
 <template id="page-work6" data-title="Sebastian’s Archive">
 <main class="page-shell">
-    <div class="viewport" data-height="5400">
+    <div class="viewport" data-height="5750">
       <section class="artboard">
         <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
         <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
