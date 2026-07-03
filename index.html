@@ -285,6 +285,60 @@ img.home-piece,
   top: 388.26px;
 }
 
+.menu-hold-preview {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  display: grid;
+  place-items: center;
+  padding: 68px 22px 38px;
+  background: rgba(0, 0, 0, .72);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s ease;
+  backdrop-filter: blur(10px);
+}
+
+.menu-hold-preview.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-hold-preview img {
+  width: auto;
+  height: auto;
+  max-width: min(82vw, 760px);
+  max-height: 82vh;
+  object-fit: contain;
+  box-shadow: 0 26px 80px rgba(0, 0, 0, .72);
+  transform: translateY(16px) scale(.96);
+  opacity: .001;
+  transition: transform .34s cubic-bezier(.2, .78, .18, 1), opacity .24s ease;
+}
+
+.menu-hold-preview.is-open img {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.menu-hold-preview-label {
+  position: fixed;
+  left: 50%;
+  top: 22px;
+  transform: translateX(-50%);
+  color: #fff;
+  font-family: "Kyiv*Type Serif", "KyivType Serif", "Times New Roman", serif;
+  font-size: 28px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.menu-card-about,
+.menu-card-connect {
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
 .summary-card,
 .project-card {
   transform-origin: center center;
@@ -1071,6 +1125,99 @@ img.home-piece,
     overflow: visible;
   }
 
+  .menu-page .label {
+    font-size: 118px;
+    line-height: .96;
+    z-index: 45;
+  }
+
+  .menu-page .menu-label-about {
+    left: 374px !important;
+    top: 760px !important;
+  }
+
+  .menu-page .menu-card-about {
+    left: 374px !important;
+    top: 1040px !important;
+    width: 1050px !important;
+    height: 1483px !important;
+  }
+
+  .menu-page .menu-label-concept {
+    left: 1514px !important;
+    top: 760px !important;
+  }
+
+  .menu-page .menu-concept-card {
+    left: 1514px !important;
+    top: 1040px !important;
+    width: 1100px !important;
+    height: 2380px !important;
+  }
+
+  .menu-page .menu-concept-card .concept-list {
+    left: 97px;
+    top: 666px;
+    width: 960px;
+  }
+
+  .menu-page .menu-concept-card .concept-item {
+    margin-bottom: 49px;
+  }
+
+  .menu-page .menu-concept-card .concept-title {
+    font-size: 46px;
+    line-height: 1.2;
+  }
+
+  .menu-page .menu-concept-card .concept-title span {
+    padding-left: 72px;
+  }
+
+  .menu-page .menu-concept-card .concept-detail p {
+    margin-top: 15px;
+    font-size: 25px;
+    line-height: 1.5;
+  }
+
+  .menu-page .menu-concept-card .concept-detail a {
+    margin-top: 15px;
+    font-size: 20px;
+  }
+
+  .menu-page .menu-concept-card .concept-item.is-open .concept-detail {
+    max-height: 178px;
+    padding-bottom: 21px;
+  }
+
+  .menu-page .menu-label-connect {
+    left: 374px !important;
+    top: 2560px !important;
+  }
+
+  .menu-page .menu-card-connect {
+    left: 374px !important;
+    top: 2820px !important;
+    width: 1050px !important;
+    height: 788px !important;
+  }
+
+  .menu-page .menu-label-project {
+    left: 374px !important;
+    top: 3660px !important;
+  }
+
+  .menu-page .menu-card-project {
+    left: 374px !important;
+    top: 3940px !important;
+    width: 2240px !important;
+    height: 3200px !important;
+  }
+
+  .menu-page .menu-card-project > img {
+    object-fit: fill;
+  }
+
   .work1-page .project-meta,
   .work9-page .project-meta {
     z-index: 70;
@@ -1118,9 +1265,45 @@ img.home-piece,
     transform: none !important;
   }
 
+  .work2-page .work-side-meta,
+  .work3-page .work-side-meta {
+    left: 430px !important;
+    width: 1600px !important;
+  }
+
+  .work4-page .project-card:first-of-type {
+    left: 430px !important;
+  }
+
+  .work4-page .project-card:nth-of-type(2) {
+    left: 1580px !important;
+  }
+
+  .work5-page .project-meta {
+    left: 430px !important;
+    width: 1740px !important;
+  }
+
+  .work5-page .popmart-swap-card[data-slot="left"] {
+    left: 374px !important;
+  }
+
+  .work5-page .popmart-swap-card[data-slot="right"] {
+    left: 1864px !important;
+  }
+
+  .work5-page .work5-wahaha-card[src="assets/wahaha-1.jpg"] {
+    left: 520px !important;
+  }
+
+  .work5-page .work5-wahaha-card[src="assets/wahaha-2.jpg"] {
+    left: 1582px !important;
+  }
+
   .work9-page .project-meta {
+    left: 374px !important;
     top: 300px !important;
-    width: 2300px !important;
+    width: 2100px !important;
     translate: 0 340px;
   }
 
@@ -1137,6 +1320,35 @@ img.home-piece,
   .work9-page .project-card,
   .work9-page .project-text {
     translate: 0 780px;
+  }
+
+  .work9-page .project-card[style*="left: 249px"],
+  .work9-page .project-card[style*="left: 250px"] {
+    left: 520px !important;
+    width: 1320px !important;
+    height: 739px !important;
+  }
+
+  .work9-page .project-text[style*="left: 250px"] {
+    left: 520px !important;
+    width: 760px !important;
+  }
+
+  .work9-page .project-card[style*="left: 1241px"] {
+    left: 1120px !important;
+    width: 1320px !important;
+    height: 740px !important;
+  }
+
+  .work9-page .project-card[style*="left: 1236px"] {
+    left: 1120px !important;
+    width: 1320px !important;
+    height: 740px !important;
+  }
+
+  .work9-page .project-text[style*="left: 1810px"] {
+    left: 1650px !important;
+    width: 680px !important;
   }
 
   .work9-page .project-card,
@@ -1358,16 +1570,16 @@ img.home-piece,
 </template>
 
 <template id="page-menu" data-title="Sebastian’s Archive">
-<main class="page-shell">
+<main class="page-shell menu-page">
     <div class="viewport" data-height="3401">
       <section class="artboard">
         <a class="logo" style="left:152px;top:100px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
         <a class="nav-text" style="left:2737px;top:167px" href="index.html">Back</a>
-        <p class="label layer" style="left:205px;top:420px">About Me</p>
-        <p class="label layer" style="left:829px;top:420px">Concept</p>
-        <p class="label layer" style="left:1505px;top:420px">Connect</p>
-        <p class="label layer" style="left:1947px;top:420px">Project</p>
-        <a class="layer menu-card shadow-soft" style="left:205px;top:508px;width:589.091px;height:832.04px" href="home.html"><img src="assets/resume.jpg" alt="Resume"></a>
+        <p class="label layer menu-label-about" style="left:205px;top:420px">About Me</p>
+        <p class="label layer menu-label-concept" style="left:829px;top:420px">Concept</p>
+        <p class="label layer menu-label-connect" style="left:1505px;top:420px">Connect</p>
+        <p class="label layer menu-label-project" style="left:1947px;top:420px">Project</p>
+        <a class="layer menu-card menu-card-about shadow-soft" style="left:205px;top:508px;width:589.091px;height:832.04px" href="home.html"><img src="assets/resume.jpg" alt="Resume"></a>
         <div class="layer menu-card menu-concept-card" style="left:829.47px;top:508px;width:640.609px;height:1385.188px">
           <img src="assets/directory.png" alt="Directory">
           <div class="concept-list" aria-label="Project introductions">
@@ -1436,8 +1648,8 @@ img.home-piece,
           </article>
           </div>
         </div>
-        <a class="layer menu-card shadow-soft" style="left:1505.39px;top:508px;width:406.56px;height:304.816px" href="home.html"><img src="assets/profile-card.jpg" alt="Contact card"></a>
-        <a class="layer menu-card shadow-deep" style="left:1947.25px;top:508px;width:838.746px;height:1200.511px" href="summary.html"><img src="assets/portfolio-bag.jpg" alt="Portfolio bag"></a>
+        <a class="layer menu-card menu-card-connect shadow-soft" style="left:1505.39px;top:508px;width:406.56px;height:304.816px" href="home.html"><img src="assets/profile-card.jpg" alt="Contact card"></a>
+        <a class="layer menu-card menu-card-project shadow-deep" style="left:1947.25px;top:508px;width:838.746px;height:1200.511px" href="summary.html"><img src="assets/portfolio-bag.jpg" alt="Portfolio bag"></a>
       </section>
     </div>
   </main>
@@ -1530,7 +1742,7 @@ img.home-piece,
 </template>
 
 <template id="page-work2" data-title="Sebastian’s Archive">
-<main class="page-shell">
+<main class="page-shell work2-page">
     <div class="viewport" data-height="3560">
       <section class="artboard">
         <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
@@ -1549,7 +1761,7 @@ img.home-piece,
 </template>
 
 <template id="page-work3" data-title="Sebastian’s Archive">
-<main class="page-shell">
+<main class="page-shell work3-page">
     <div class="viewport" data-height="3560">
       <section class="artboard">
         <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
@@ -1568,7 +1780,7 @@ img.home-piece,
 </template>
 
 <template id="page-work4" data-title="Sebastian’s Archive">
-<main class="page-shell">
+<main class="page-shell work4-page">
     <div class="viewport" data-height="3600">
       <section class="artboard">
         <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
@@ -1588,7 +1800,7 @@ img.home-piece,
 </template>
 
 <template id="page-work5" data-title="Sebastian’s Archive">
-<main class="page-shell">
+<main class="page-shell work5-page">
     <div class="viewport" data-height="2860">
       <section class="artboard">
         <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
@@ -2180,6 +2392,7 @@ img.home-piece,
   function fitBoards() {
     document.querySelectorAll(".viewport").forEach(function (viewport) {
       var h = Number(viewport.dataset.height || 3330);
+      if (window.innerWidth <= 700 && viewport.closest(".menu-page")) h = Math.max(h, 7200);
       if (window.innerWidth <= 700 && viewport.closest(".work9-page")) h += 960;
       var max = Number(viewport.dataset.max || window.innerWidth);
       var available = Math.max(320, Math.min(window.innerWidth, max));
@@ -2319,6 +2532,85 @@ img.home-piece,
         app.querySelectorAll(".concept-item.is-open").forEach(function (openItem) { openItem.classList.remove("is-open"); });
         if (!isOpen) item.classList.add("is-open");
       });
+    });
+  }
+
+  function setupMenuHoldPreview() {
+    var cards = app.querySelectorAll(".menu-card-about, .menu-card-connect");
+    if (!cards.length) return;
+    var overlay = document.querySelector(".menu-hold-preview");
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.className = "menu-hold-preview";
+      overlay.setAttribute("role", "dialog");
+      overlay.setAttribute("aria-modal", "true");
+      overlay.innerHTML = '<span class="menu-hold-preview-label"></span><img alt="">';
+      document.body.appendChild(overlay);
+      overlay.addEventListener("click", function (event) {
+        if (event.target === overlay) closePreview();
+      });
+    }
+    var previewImg = overlay.querySelector("img");
+    var previewLabel = overlay.querySelector(".menu-hold-preview-label");
+    var closeTimer = 0;
+    function closePreview() {
+      window.clearTimeout(closeTimer);
+      overlay.classList.remove("is-open");
+      closeTimer = window.setTimeout(function () {
+        if (!overlay.classList.contains("is-open")) {
+          previewImg.removeAttribute("src");
+          previewImg.alt = "";
+          previewLabel.textContent = "";
+        }
+      }, 240);
+    }
+    function openPreview(card) {
+      var img = card.querySelector("img");
+      if (!img) return;
+      previewImg.src = img.currentSrc || img.src;
+      previewImg.alt = img.alt || "";
+      previewLabel.textContent = card.classList.contains("menu-card-connect") ? "Connect" : "About Me";
+      overlay.classList.add("is-open");
+    }
+    cards.forEach(function (card) {
+      var pressTimer = 0;
+      var openedByPress = false;
+      var startX = 0;
+      var startY = 0;
+      function clearPress() {
+        window.clearTimeout(pressTimer);
+        pressTimer = 0;
+      }
+      card.addEventListener("pointerdown", function (event) {
+        if (event.pointerType === "mouse" && event.button !== 0) return;
+        openedByPress = false;
+        startX = event.clientX;
+        startY = event.clientY;
+        clearPress();
+        pressTimer = window.setTimeout(function () {
+          openedByPress = true;
+          openPreview(card);
+        }, 520);
+      });
+      card.addEventListener("pointermove", function (event) {
+        if (!pressTimer) return;
+        if (Math.abs(event.clientX - startX) > 12 || Math.abs(event.clientY - startY) > 12) clearPress();
+      });
+      ["pointerup", "pointercancel", "pointerleave"].forEach(function (name) {
+        card.addEventListener(name, clearPress);
+      });
+      card.addEventListener("click", function (event) {
+        if (!openedByPress) return;
+        event.preventDefault();
+        event.stopPropagation();
+        openedByPress = false;
+      }, true);
+      card.addEventListener("contextmenu", function (event) {
+        event.preventDefault();
+      });
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && overlay.classList.contains("is-open")) closePreview();
     });
   }
 
@@ -2473,6 +2765,7 @@ img.home-piece,
     setupHomeInteractions();
     setupBagInteractions();
     setupConceptItems();
+    setupMenuHoldPreview();
     setupReveal();
     setupMomentsCarousel();
     setupPopmartSwap();
