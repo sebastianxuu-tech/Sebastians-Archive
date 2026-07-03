@@ -1070,6 +1070,59 @@ img.home-piece,
     overflow: visible;
   }
 
+  .work1-page .project-meta,
+  .work9-page .project-meta {
+    z-index: 70;
+  }
+
+  .work1-page .project-meta {
+    top: 300px !important;
+    width: 2300px !important;
+  }
+
+  .work1-page .project-kicker,
+  .work9-page .project-kicker {
+    font-size: 70px;
+  }
+
+  .work1-page .project-heading {
+    font-size: 150px;
+  }
+
+  .work1-page .project-desc {
+    margin-top: 28px;
+    font-size: 64px;
+    line-height: 1.5;
+  }
+
+  .work1-page .moments-carousel {
+    top: 1540px !important;
+    z-index: 28;
+  }
+
+  .work9-page .project-meta {
+    top: 300px !important;
+    width: 2300px !important;
+  }
+
+  .work9-page .project-heading {
+    font-size: 142px;
+  }
+
+  .work9-page .project-desc {
+    margin-top: 28px;
+    font-size: 62px;
+    line-height: 1.5;
+  }
+
+  .work9-page .project-meta + .project-card {
+    top: 1580px !important;
+  }
+
+  .work9-page .project-meta + .project-card + .aigc-text {
+    top: 1660px !important;
+  }
+
   .home-concept-wrap .concept-title {
     position: relative;
     min-height: 0;
@@ -1382,7 +1435,7 @@ img.home-piece,
 </template>
 
 <template id="page-work1" data-title="Sebastian’s Archive">
-<main class="page-shell">
+<main class="page-shell work1-page">
     <div class="viewport" data-height="13450">
       <section class="artboard">
         <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
@@ -1597,7 +1650,7 @@ img.home-piece,
 </template>
 
 <template id="page-work9" data-title="Sebastian’s Archive">
-<main class="page-shell">
+<main class="page-shell work9-page">
     <div class="viewport" data-height="8240">
       <section class="artboard">
         <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio"></a>
