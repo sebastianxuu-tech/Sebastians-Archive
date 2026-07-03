@@ -1115,12 +1115,14 @@ img.home-piece,
     line-height: 1.5;
   }
 
-  .work9-page .project-meta + .project-card {
-    top: 1580px !important;
+  .work9-page .project-card,
+  .work9-page .project-text {
+    translate: 0 440px;
   }
 
-  .work9-page .project-meta + .project-card + .aigc-text {
-    top: 1660px !important;
+  .work9-page .project-card,
+  .work9-page .project-text {
+    pointer-events: none;
   }
 
   .home-concept-wrap .concept-title {
@@ -1169,11 +1171,11 @@ img.home-piece,
   }
 
   .concept-title::after {
-    inset: -120px -80px;
+    inset: -28px -18px;
   }
 
   .concept-detail a::after {
-    inset: -130px -180px;
+    inset: -28px -36px;
   }
 
   .project-kicker {
@@ -1225,7 +1227,7 @@ img.home-piece,
   }
 
   .work5-series-tab::after {
-    inset: -120px -180px;
+    inset: -34px -46px;
   }
 
   .moments-control {
