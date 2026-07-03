@@ -719,9 +719,70 @@ img.home-piece,
   width: 0;
   height: 0;
   margin-left: 9%;
-  border-top: 92px solid transparent;
-  border-bottom: 92px solid transparent;
-  border-left: 142px solid #fff;
+  border-top: 66px solid transparent;
+  border-bottom: 66px solid transparent;
+  border-left: 102px solid #fff;
+}
+
+.mobile-video-controls {
+  display: none;
+  z-index: 78;
+  align-items: center;
+  gap: 52px;
+  box-sizing: border-box;
+  padding: 0 58px;
+  border-radius: 130px;
+  background: rgba(0, 0, 0, .56);
+  border: 2px solid rgba(255, 255, 255, .24);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, .52);
+  backdrop-filter: blur(14px);
+}
+
+.mobile-video-control-btn {
+  width: 260px;
+  height: 260px;
+  border: 2px solid rgba(255, 255, 255, .56);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 144px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mobile-video-progress {
+  flex: 1;
+  min-width: 0;
+  height: 130px;
+  accent-color: #fff;
+  cursor: pointer;
+}
+
+.mobile-video-progress::-webkit-slider-runnable-track {
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .38);
+}
+
+.mobile-video-progress::-webkit-slider-thumb {
+  width: 128px;
+  height: 128px;
+  margin-top: -47px;
+}
+
+.mobile-video-progress::-moz-range-track {
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .38);
+}
+
+.mobile-video-progress::-moz-range-thumb {
+  width: 128px;
+  height: 128px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
 }
 
 .project-text {
@@ -819,6 +880,7 @@ img.home-piece,
   overflow: hidden;
   user-select: none;
   cursor: grab;
+  touch-action: pan-y;
 }
 
 .moments-carousel.is-dragging {
@@ -1187,6 +1249,10 @@ img.home-piece,
     transform: scale(.92);
   }
 
+  .mobile-video-controls {
+    display: flex;
+  }
+
   .work9-page .project-card,
   .work9-page .project-text {
     pointer-events: none;
@@ -1198,6 +1264,12 @@ img.home-piece,
     padding: 0;
     font-size: 64px;
     line-height: 1.12;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .home-concept-wrap .concept-list {
+    width: 940px;
   }
 
   .home-concept-wrap .concept-item {
@@ -2367,6 +2439,11 @@ img.home-piece,
       var prev = carousel.querySelector(".moments-control.prev");
       var next = carousel.querySelector(".moments-control.next");
       var current = 0;
+      var dragStartX = 0;
+      var dragStartY = 0;
+      var dragPointerId = null;
+      var didSwipe = false;
+      var suppressClickUntil = 0;
       function wrap(index) { return (index % slides.length + slides.length) % slides.length; }
       function signedOffset(index) {
         var raw = index - current;
@@ -2392,6 +2469,7 @@ img.home-piece,
       function go(step) { current = wrap(current + step); render(); }
       slides.forEach(function (slide, index) {
         slide.addEventListener("click", function () {
+          if (Date.now() < suppressClickUntil) return;
           var offset = signedOffset(index);
           if (offset !== 0) { current = wrap(current + offset); render(); }
           window.setTimeout(function () {
@@ -2403,6 +2481,42 @@ img.home-piece,
       if (prev) prev.addEventListener("click", function () { go(-1); });
       if (next) next.addEventListener("click", function () { go(1); });
       carousel.addEventListener("wheel", function (event) { event.preventDefault(); go(event.deltaY > 0 || event.deltaX > 0 ? 1 : -1); }, { passive: false });
+      carousel.addEventListener("pointerdown", function (event) {
+        if (event.target.closest && event.target.closest(".moments-control")) return;
+        dragStartX = event.clientX;
+        dragStartY = event.clientY;
+        dragPointerId = event.pointerId;
+        didSwipe = false;
+        carousel.classList.add("is-dragging");
+        if (carousel.setPointerCapture) carousel.setPointerCapture(event.pointerId);
+      });
+      carousel.addEventListener("pointermove", function (event) {
+        if (dragPointerId !== event.pointerId) return;
+        var dx = event.clientX - dragStartX;
+        var dy = event.clientY - dragStartY;
+        if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+          didSwipe = true;
+          event.preventDefault();
+        }
+      });
+      function finishSwipe(event) {
+        if (dragPointerId !== event.pointerId) return;
+        var dx = event.clientX - dragStartX;
+        var dy = event.clientY - dragStartY;
+        carousel.classList.remove("is-dragging");
+        if (carousel.releasePointerCapture) carousel.releasePointerCapture(event.pointerId);
+        dragPointerId = null;
+        if (didSwipe && Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+          suppressClickUntil = Date.now() + 420;
+          go(dx < 0 ? 1 : -1);
+        }
+      }
+      carousel.addEventListener("pointerup", finishSwipe);
+      carousel.addEventListener("pointercancel", function (event) {
+        if (dragPointerId !== event.pointerId) return;
+        carousel.classList.remove("is-dragging");
+        dragPointerId = null;
+      });
       render();
     });
   }
@@ -2457,8 +2571,9 @@ img.home-piece,
 
   function setupMobileVideoToggles() {
     app.querySelectorAll(".mobile-video-toggle").forEach(function (button) { button.remove(); });
+    app.querySelectorAll(".mobile-video-controls").forEach(function (controls) { controls.remove(); });
     app.querySelectorAll(".project-video").forEach(function (video) {
-      var size = 520;
+      var size = 380;
       var left = parseFloat(video.style.left) || 0;
       var top = parseFloat(video.style.top) || 0;
       var width = parseFloat(video.style.width) || 0;
@@ -2472,10 +2587,38 @@ img.home-piece,
       button.style.width = size + "px";
       button.style.height = size + "px";
       video.insertAdjacentElement("afterend", button);
+      var controls = document.createElement("div");
+      controls.className = "mobile-video-controls layer";
+      controls.style.left = (left + width * .06) + "px";
+      controls.style.top = (top + height - 380) + "px";
+      controls.style.width = (width * .88) + "px";
+      controls.style.height = "300px";
+      var playButton = document.createElement("button");
+      playButton.type = "button";
+      playButton.className = "mobile-video-control-btn";
+      playButton.setAttribute("aria-label", "Play or pause video");
+      var progress = document.createElement("input");
+      progress.className = "mobile-video-progress";
+      progress.type = "range";
+      progress.min = "0";
+      progress.max = "1000";
+      progress.value = "0";
+      progress.setAttribute("aria-label", "Video progress");
+      var fullscreenButton = document.createElement("button");
+      fullscreenButton.type = "button";
+      fullscreenButton.className = "mobile-video-control-btn";
+      fullscreenButton.setAttribute("aria-label", "Fullscreen video");
+      fullscreenButton.textContent = "[]";
+      controls.appendChild(playButton);
+      controls.appendChild(progress);
+      controls.appendChild(fullscreenButton);
+      button.insertAdjacentElement("afterend", controls);
       function sync() {
         button.classList.toggle("is-playing", !video.paused && !video.ended);
+        playButton.textContent = video.paused || video.ended ? ">" : "||";
+        if (video.duration) progress.value = String(Math.round(video.currentTime / video.duration * 1000));
       }
-      button.addEventListener("click", function () {
+      function togglePlay() {
         if (video.paused || video.ended) {
           var play = video.play();
           if (play && play.catch) play.catch(function () {});
@@ -2483,10 +2626,23 @@ img.home-piece,
           video.pause();
         }
         sync();
+      }
+      button.addEventListener("click", function () {
+        togglePlay();
+      });
+      playButton.addEventListener("click", togglePlay);
+      progress.addEventListener("input", function () {
+        if (video.duration) video.currentTime = Number(progress.value) / 1000 * video.duration;
+      });
+      fullscreenButton.addEventListener("click", function () {
+        if (video.requestFullscreen) video.requestFullscreen();
+        else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
       });
       video.addEventListener("play", sync);
       video.addEventListener("pause", sync);
       video.addEventListener("ended", sync);
+      video.addEventListener("timeupdate", sync);
+      video.addEventListener("loadedmetadata", sync);
       sync();
     });
   }
