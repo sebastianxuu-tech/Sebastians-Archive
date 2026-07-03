@@ -1166,6 +1166,9 @@ img.home-piece,
   }
 
   .menu-page .menu-concept-card .concept-title {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
     font-size: 46px;
     line-height: 1.2;
   }
@@ -1176,26 +1179,27 @@ img.home-piece,
 
   .menu-page .menu-concept-card .concept-detail p {
     margin-top: 15px;
-    font-size: 28px;
-    line-height: 1.48;
+    font-size: 32px;
+    line-height: 1.45;
+    pointer-events: none;
   }
 
   .menu-page .menu-concept-card .concept-detail a {
-    margin-top: 17px;
-    font-size: 23px;
+    margin-top: 18px;
+    font-size: 26px;
   }
 
   .menu-page .menu-concept-card .concept-item.is-open .concept-detail {
-    max-height: 204px;
-    padding-bottom: 24px;
+    max-height: 244px;
+    padding-bottom: 28px;
   }
 
   .menu-page .menu-concept-card .concept-title::after {
-    inset: -16px -22px;
+    inset: 0;
   }
 
   .menu-page .menu-concept-card .concept-detail a::after {
-    inset: -18px -30px;
+    inset: 0;
   }
 
   .menu-page .menu-label-connect {
