@@ -751,6 +751,8 @@ img.home-piece,
 
 .aigc-title {
   color: #fff;
+  -webkit-text-fill-color: #fff;
+  opacity: 1;
   font-family: "BOONE", "Kyiv*Type Serif", "KyivType Serif", "Times New Roman", serif;
   font-size: 80px;
   font-weight: normal;
@@ -948,6 +950,14 @@ img.home-piece,
     -webkit-appearance: none;
   }
 
+  .mobile-video-player.is-native-fullscreen .mobile-video-element::-webkit-media-controls,
+  .mobile-video-player.is-native-fullscreen .mobile-video-element::-webkit-media-controls-panel,
+  .mobile-video-player.is-native-fullscreen .mobile-video-element::-webkit-media-controls-play-button,
+  .mobile-video-player.is-native-fullscreen .mobile-video-element::-webkit-media-controls-start-playback-button {
+    display: initial !important;
+    -webkit-appearance: media-controls !important;
+  }
+
   .mobile-video-player .mobile-video-element {
     pointer-events: auto;
     transform-origin: center center;
@@ -1009,6 +1019,11 @@ img.home-piece,
     opacity: 0;
     pointer-events: none;
     transform: translate(-50%, -50%) scale(.86);
+  }
+
+  .mobile-video-player.is-native-fullscreen .mobile-video-play {
+    opacity: 0;
+    pointer-events: none;
   }
 
 }
@@ -1930,23 +1945,23 @@ img.home-piece,
               <span>Shadow</span>
             </button>
             <button class="moments-slide" type="button" data-index="3" data-target="moments-work-3" aria-label="Select Motion">
-              <img src="assets/moments-03.webp" alt="Motion" decoding="async" loading="lazy">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-03.webp" alt="Motion" decoding="async" loading="lazy">
               <span>Motion</span>
             </button>
             <button class="moments-slide" type="button" data-index="4" data-target="moments-work-4" aria-label="Select Drift">
-              <img src="assets/moments-04.webp" alt="Drift" decoding="async" loading="lazy">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-04.webp" alt="Drift" decoding="async" loading="lazy">
               <span>Drift</span>
             </button>
             <button class="moments-slide" type="button" data-index="5" data-target="moments-work-5" aria-label="Select Trace">
-              <img src="assets/moments-05.webp" alt="Trace" decoding="async" loading="lazy">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-05.webp" alt="Trace" decoding="async" loading="lazy">
               <span>Trace</span>
             </button>
             <button class="moments-slide" type="button" data-index="6" data-target="moments-work-6" aria-label="Select Echo">
-              <img src="assets/moments-06.webp" alt="Echo" decoding="async" loading="lazy">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-06.webp" alt="Echo" decoding="async" loading="lazy">
               <span>Echo</span>
             </button>
             <button class="moments-slide" type="button" data-index="7" data-target="moments-work-7" aria-label="Select Stillness">
-              <img src="assets/moments-07.webp" alt="Stillness" decoding="async" loading="lazy">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-07.webp" alt="Stillness" decoding="async" loading="lazy">
               <span>Stillness</span>
             </button>
           </div>
@@ -1954,14 +1969,14 @@ img.home-piece,
           <button class="moments-control next" type="button" aria-label="Next work">›</button>
         </div>
         <p class="project-index layer" style="left:501px;top:1540px;width:1984px">Selected Works / 2024-2026</p>
-        <img id="moments-work-0" class="layer project-card" style="left:501px;top:1750px;width:1984px;height:1116px" src="assets/moments-00.webp" alt="Fugitive Moments cover" decoding="async" loading="lazy">
-        <img id="moments-work-1" class="layer project-card" style="left:501px;top:3238px;width:1984px;height:1116px" src="assets/moments-01.webp" alt="Fugitive Moments 01" decoding="async" loading="lazy">
-        <img id="moments-work-2" class="layer project-card" style="left:501px;top:4663px;width:1984px;height:1116px" src="assets/moments-02.webp" alt="Fugitive Moments 02" decoding="async" loading="lazy">
-        <img id="moments-work-3" class="layer project-card" style="left:501px;top:6090px;width:1984px;height:1116px" src="assets/moments-03.webp" alt="Fugitive Moments 03" decoding="async" loading="lazy">
-        <img id="moments-work-4" class="layer project-card" style="left:501px;top:7515px;width:1984px;height:1116px" src="assets/moments-04.webp" alt="Fugitive Moments 04" decoding="async" loading="lazy">
-        <img id="moments-work-5" class="layer project-card" style="left:501px;top:8942px;width:1984px;height:1116px" src="assets/moments-05.webp" alt="Fugitive Moments 05" decoding="async" loading="lazy">
-        <img id="moments-work-6" class="layer project-card" style="left:501px;top:10368px;width:1984px;height:1116px" src="assets/moments-06.webp" alt="Fugitive Moments 06" decoding="async" loading="lazy">
-        <img id="moments-work-7" class="layer project-card" style="left:501px;top:11967px;width:1984px;height:1116px" src="assets/moments-07.webp" alt="Fugitive Moments ending" decoding="async" loading="lazy">
+        <img id="moments-work-0" class="layer project-card" style="left:501px;top:1750px;width:1984px;height:1116px" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-00.webp" alt="Fugitive Moments cover" decoding="async" loading="lazy">
+        <img id="moments-work-1" class="layer project-card" style="left:501px;top:3238px;width:1984px;height:1116px" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-01.webp" alt="Fugitive Moments 01" decoding="async" loading="lazy">
+        <img id="moments-work-2" class="layer project-card" style="left:501px;top:4663px;width:1984px;height:1116px" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-02.webp" alt="Fugitive Moments 02" decoding="async" loading="lazy">
+        <img id="moments-work-3" class="layer project-card" style="left:501px;top:6090px;width:1984px;height:1116px" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-03.webp" alt="Fugitive Moments 03" decoding="async" loading="lazy">
+        <img id="moments-work-4" class="layer project-card" style="left:501px;top:7515px;width:1984px;height:1116px" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-04.webp" alt="Fugitive Moments 04" decoding="async" loading="lazy">
+        <img id="moments-work-5" class="layer project-card" style="left:501px;top:8942px;width:1984px;height:1116px" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-05.webp" alt="Fugitive Moments 05" decoding="async" loading="lazy">
+        <img id="moments-work-6" class="layer project-card" style="left:501px;top:10368px;width:1984px;height:1116px" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-06.webp" alt="Fugitive Moments 06" decoding="async" loading="lazy">
+        <img id="moments-work-7" class="layer project-card" style="left:501px;top:11967px;width:1984px;height:1116px" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/moments-07.webp" alt="Fugitive Moments ending" decoding="async" loading="lazy">
       </section>
     </div>
   </main>
@@ -2990,10 +3005,53 @@ img.home-piece,
       var button = player.querySelector(".mobile-video-play");
       var tapTimer = 0;
       var lastTap = 0;
+      if (video._mobileFullscreenCleanup) video._mobileFullscreenCleanup();
       video.controls = false;
       video.removeAttribute("controls");
       video.setAttribute("playsinline", "");
       video.setAttribute("webkit-playsinline", "");
+      function fullscreenElement() {
+        return document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement || null;
+      }
+      function setNativeFullscreenMode(active) {
+        player.classList.toggle("is-native-fullscreen", active);
+        if (active) {
+          video.controls = true;
+          video.setAttribute("controls", "");
+          button.setAttribute("aria-hidden", "true");
+          return;
+        }
+        if (!isMobileVideoMode()) return;
+        video.controls = false;
+        video.removeAttribute("controls");
+        video.setAttribute("playsinline", "");
+        video.setAttribute("webkit-playsinline", "");
+        button.removeAttribute("aria-hidden");
+        if (!video.paused && !video.ended) hidePlay();
+        else showPlay();
+      }
+      function handleFullscreenChange() {
+        var activeElement = fullscreenElement();
+        var active = activeElement === video || activeElement === player || document.webkitIsFullScreen;
+        if (active) setNativeFullscreenMode(true);
+        else setNativeFullscreenMode(false);
+      }
+      function handleNativeFullscreenStart() {
+        setNativeFullscreenMode(true);
+      }
+      function handleNativeFullscreenEnd() {
+        setNativeFullscreenMode(false);
+      }
+      document.addEventListener("fullscreenchange", handleFullscreenChange);
+      document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+      video.addEventListener("webkitbeginfullscreen", handleNativeFullscreenStart);
+      video.addEventListener("webkitendfullscreen", handleNativeFullscreenEnd);
+      video._mobileFullscreenCleanup = function () {
+        document.removeEventListener("fullscreenchange", handleFullscreenChange);
+        document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+        video.removeEventListener("webkitbeginfullscreen", handleNativeFullscreenStart);
+        video.removeEventListener("webkitendfullscreen", handleNativeFullscreenEnd);
+      };
       function showPlay() {
         player.classList.remove("is-playing");
         button.setAttribute("aria-label", "Play video");
@@ -3023,13 +3081,23 @@ img.home-piece,
       function openFullscreen() {
         video.muted = false;
         video.removeAttribute("muted");
+        setNativeFullscreenMode(true);
+        var playPromise = video.play();
+        if (playPromise && playPromise.catch) playPromise.catch(function () {});
         if (video.webkitEnterFullscreen) {
           video.webkitEnterFullscreen();
           return;
         }
-        var target = player;
+        var target = video;
         var request = target.requestFullscreen || target.webkitRequestFullscreen || target.msRequestFullscreen;
-        if (request) request.call(target);
+        if (request) {
+          var fullscreenPromise = request.call(target);
+          if (fullscreenPromise && fullscreenPromise.catch) fullscreenPromise.catch(function () {
+            setNativeFullscreenMode(false);
+          });
+        } else {
+          setNativeFullscreenMode(false);
+        }
       }
       function isDoubleTap() {
         var now = Date.now();
@@ -3077,6 +3145,38 @@ img.home-piece,
     updateMobileVideoPlayerScales(app);
   }
 
+  function loadDeferredImage(img) {
+    if (!img || !img.dataset || !img.dataset.src) return;
+    img.src = img.dataset.src;
+    img.removeAttribute("data-src");
+  }
+
+  function setupWork1DeferredImages() {
+    var page = app.querySelector(".work1-page");
+    if (!page) return;
+    var deferred = Array.prototype.slice.call(page.querySelectorAll("img[data-src]"));
+    if (!deferred.length) return;
+    if (window.innerWidth > 700 || !("IntersectionObserver" in window)) {
+      deferred.forEach(loadDeferredImage);
+      return;
+    }
+    page.querySelectorAll(".moments-slide").forEach(function (slide) {
+      var img = slide.querySelector("img[data-src]");
+      var index = Number(slide.dataset.index || 0);
+      if (img && index <= 2) loadDeferredImage(img);
+    });
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        loadDeferredImage(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "360px 0px" });
+    page.querySelectorAll(".artboard > img.project-card[data-src]").forEach(function (img) {
+      observer.observe(img);
+    });
+  }
+
   function setupMomentsCarousel() {
     app.querySelectorAll(".moments-carousel").forEach(function (carousel) {
       var slides = Array.prototype.slice.call(carousel.querySelectorAll(".moments-slide"));
@@ -3101,6 +3201,7 @@ img.home-piece,
           var offset = signedOffset(index);
           var distance = Math.abs(offset);
           var hidden = distance > 2;
+          if (!hidden) loadDeferredImage(slide.querySelector("img[data-src]"));
           slide.classList.toggle("is-active", distance === 0);
           slide.tabIndex = hidden ? -1 : 0;
           slide.style.pointerEvents = hidden ? "none" : "auto";
@@ -3221,6 +3322,7 @@ img.home-piece,
     setupConceptItems();
     setupMenuHoldPreview();
     setupMobileVideoPlayers();
+    setupWork1DeferredImages();
     setupReveal();
     setupMomentsCarousel();
     setupPopmartSwap();
@@ -3246,6 +3348,9 @@ img.home-piece,
     var ghost = previousPage === page || stableRoute ? null : createPageGhost();
     currentPage = page;
     document.title = template.dataset.title || document.title;
+    app.querySelectorAll("video").forEach(function (video) {
+      if (video._mobileFullscreenCleanup) video._mobileFullscreenCleanup();
+    });
     app.innerHTML = template.innerHTML;
     window.scrollTo(0, 0);
     if (!stableRoute) {
