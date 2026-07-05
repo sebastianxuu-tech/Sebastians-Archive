@@ -1327,43 +1327,20 @@ img.home-piece,
   }
 
   .fixed-chrome-clone.logo {
-    left: 50% !important;
-    top: 8px !important;
-    width: 96px !important;
-    height: 54px !important;
-    transform: translateX(-50%) !important;
-  }
-
-  body:has(.menu-page) .fixed-chrome-clone.logo {
-    left: 16px !important;
-    transform: none !important;
+    width: 96px;
+    height: 54px;
   }
 
   .fixed-chrome-clone.nav-text {
-    top: 14px !important;
-    width: auto !important;
-    height: auto !important;
     min-width: 44px;
     min-height: 44px;
-    margin: -14px !important;
-    padding: 14px !important;
+    margin: 0;
+    padding: 0;
     display: flex;
     align-items: center;
     color: #fff;
     font-size: 16px !important;
     line-height: 1 !important;
-    transform: none !important;
-  }
-
-  .fixed-chrome-clone.nav-text[href="menu.html"] {
-    left: 16px !important;
-  }
-
-  .fixed-chrome-clone.nav-text:not([href="menu.html"]) {
-    left: auto !important;
-    right: 16px !important;
-    justify-content: flex-end;
-    text-align: right;
   }
 
   .fixed-work-backdrop {
@@ -2190,6 +2167,7 @@ img.home-piece,
   };
   var currentPage = "home";
   var app = document.getElementById("single-app");
+  var pendingChromeStates = null;
   var MOTION = {
     ease: "cubic-bezier(.22, .78, .18, 1)",
     softEase: "cubic-bezier(.25, .72, .2, 1)",
@@ -2202,6 +2180,9 @@ img.home-piece,
   function pageFromHref(href) {
     try {
       var url = new URL(href, window.location.href);
+      var hashPage = (url.hash || "").replace("#", "");
+      if (hashPage === "index") hashPage = "home";
+      if (hashPage && document.getElementById("page-" + hashPage)) return hashPage;
       var file = (url.pathname.split("/").pop() || "home.html").toLowerCase();
       return pages[file] || "";
     } catch (error) {
@@ -2572,45 +2553,19 @@ img.home-piece,
     document.querySelectorAll(".fixed-chrome-clone").forEach(function (item) {
       var key = chromeKey(item);
       var from = previous[key];
-      var rect = item.getBoundingClientRect();
-      var finalFrame = {
-        left: item.style.left,
-        top: item.style.top,
-        width: item.style.width,
-        height: item.style.height,
-        transform: item.style.transform,
-        opacity: 1
-      };
-      var firstFrame = from ? {
-        left: from.left,
-        top: from.top,
-        width: item.style.width,
-        height: item.style.height,
-        transform: from.transform === "none" ? item.style.transform : from.transform,
-        opacity: from.opacity
-      } : {
-        left: rect.left + "px",
-        top: (rect.top + 18) + "px",
-        width: item.style.width,
-        height: item.style.height,
-        transform: item.style.transform,
-        opacity: 0
-      };
-      var midFrame = from ? Object.assign({}, finalFrame, {
-        left: (parseFloat(finalFrame.left) + (parseFloat(firstFrame.left) - parseFloat(finalFrame.left)) * .18) + "px",
-        top: (parseFloat(finalFrame.top) + (parseFloat(firstFrame.top) - parseFloat(finalFrame.top)) * .18) + "px",
-        opacity: 1,
-        offset: .78
-      }) : Object.assign({}, finalFrame, { opacity: 1, offset: .78 });
-      var animation = item.animate([firstFrame, midFrame, Object.assign({}, finalFrame, { opacity: 1 })], {
-        duration: from ? MOTION.chrome : 620,
-        easing: from ? MOTION.softEase : "cubic-bezier(.2, .8, .2, 1)",
-        fill: "both"
-      });
-      animation.onfinish = function () {
-        animation.cancel();
+      var duration = from ? 420 : 360;
+      var easing = from ? MOTION.softEase : "cubic-bezier(.2, .8, .2, 1)";
+      item.style.transition = "none";
+      item.style.opacity = from ? ".35" : "0";
+      item.offsetHeight;
+      window.setTimeout(function () {
+        item.style.transition = "opacity " + duration + "ms " + easing;
+        item.style.opacity = "1";
+      }, 24);
+      window.setTimeout(function () {
+        item.style.transition = "";
         item.style.opacity = "";
-      };
+      }, duration + 100);
     });
   }
 
@@ -2694,10 +2649,20 @@ img.home-piece,
       var clone = item.cloneNode(true);
       clone.classList.remove("fixed-chrome-source");
       clone.classList.add("fixed-chrome-clone");
+      var clonePage = pageFromHref(item.getAttribute("href"));
+      if (clonePage) clone.setAttribute("href", "#" + clonePage);
       clone.dataset.sourceLeft = String(item.offsetLeft);
       clone.dataset.sourceTop = String(item.offsetTop);
       clone.dataset.sourceWidth = String(item.offsetWidth);
       clone.dataset.sourceHeight = String(item.offsetHeight);
+      clone.addEventListener("click", function (event) {
+        if (event.defaultPrevented) return;
+        var page = pageFromHref(clone.getAttribute("href"));
+        if (!page) return;
+        event.preventDefault();
+        var records = collectSources(clone, page);
+        renderPage(page, records, true);
+      });
       layer.appendChild(clone);
     });
     if (isWorkPage(currentPage)) {
@@ -2707,17 +2672,58 @@ img.home-piece,
     }
   }
 
+  function mobileChromeFrame(item) {
+    if (window.innerWidth > 700) return null;
+    if (item.classList.contains("logo")) {
+      var logoWidth = 96;
+      var logoHeight = 54;
+      return {
+        left: (currentPage === "menu" ? 16 : (window.innerWidth - logoWidth) / 2) + "px",
+        top: "8px",
+        width: logoWidth + "px",
+        height: logoHeight + "px",
+        transform: "none"
+      };
+    }
+    if (item.classList.contains("nav-text")) {
+      item.style.width = "auto";
+      item.style.height = "auto";
+      item.style.transform = "none";
+      var width = Math.max(44, item.offsetWidth || 44);
+      var height = Math.max(44, item.offsetHeight || 44);
+      var href = item.getAttribute("href") || "";
+      var isMenuLink = pageFromHref(href) === "menu";
+      return {
+        left: (isMenuLink ? 16 : window.innerWidth - 16 - width) + "px",
+        top: "14px",
+        width: width + "px",
+        height: height + "px",
+        transform: "none"
+      };
+    }
+    return null;
+  }
+
   function updateFixedChrome() {
     var viewport = app.querySelector(".viewport");
     if (!viewport) return;
     var scale = Number(viewport.dataset.scale || 1);
     var rect = viewport.getBoundingClientRect();
     document.querySelectorAll(".fixed-chrome-clone").forEach(function (item) {
-      item.style.left = rect.left + Number(item.dataset.sourceLeft || 0) * scale + "px";
-      item.style.top = Number(item.dataset.sourceTop || 0) * scale + "px";
-      item.style.width = item.dataset.sourceWidth + "px";
-      item.style.height = item.dataset.sourceHeight + "px";
-      item.style.transform = "scale(" + scale + ")";
+      var mobileFrame = mobileChromeFrame(item);
+      if (mobileFrame) {
+        item.style.left = mobileFrame.left;
+        item.style.top = mobileFrame.top;
+        item.style.width = mobileFrame.width;
+        item.style.height = mobileFrame.height;
+        item.style.transform = mobileFrame.transform;
+      } else {
+        item.style.left = rect.left + Number(item.dataset.sourceLeft || 0) * scale + "px";
+        item.style.top = Number(item.dataset.sourceTop || 0) * scale + "px";
+        item.style.width = item.dataset.sourceWidth + "px";
+        item.style.height = item.dataset.sourceHeight + "px";
+        item.style.transform = "scale(" + scale + ")";
+      }
     });
   }
 
@@ -3230,7 +3236,8 @@ img.home-piece,
       app.classList.remove("route-fade-in");
       app.classList.add("route-fade");
     }
-    var previousChrome = captureChromeStates();
+    var previousChrome = pendingChromeStates || captureChromeStates();
+    pendingChromeStates = null;
     var ghost = previousPage === page || stableRoute ? null : createPageGhost();
     currentPage = page;
     document.title = template.dataset.title || document.title;
@@ -3270,6 +3277,11 @@ img.home-piece,
     if (push) history.pushState({ page: page }, "", "#" + page);
   }
 
+  document.addEventListener("pointerdown", function (event) {
+    var link = event.target.closest && event.target.closest(".fixed-chrome-clone[href]");
+    if (link) pendingChromeStates = captureChromeStates();
+  }, true);
+
   document.addEventListener("click", function (event) {
     var link = event.target.closest && event.target.closest("a[href]");
     if (!link) return;
@@ -3294,6 +3306,11 @@ img.home-piece,
   window.addEventListener("popstate", function () {
     var page = (location.hash || "#home").replace("#", "") || "home";
     renderPage(page === "index" ? "home" : page, [], false);
+  });
+  window.addEventListener("hashchange", function () {
+    var page = (location.hash || "#home").replace("#", "") || "home";
+    if (page === "index") page = "home";
+    if (page !== currentPage && document.getElementById("page-" + page)) renderPage(page, [], false);
   });
 
   renderPage((location.hash || "#home").replace("#", "") || "home", [], false);
