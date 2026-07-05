@@ -1536,14 +1536,22 @@ img.home-piece,
     font-size: 70px;
   }
 
+  .work1-page .project-kicker {
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.15;
+  }
+
   .work1-page .project-heading {
-    font-size: 118px;
+    font-size: 30px;
+    line-height: 1.04;
   }
 
   .work1-page .project-desc {
-    margin-top: 24px;
-    font-size: 46px;
-    line-height: 1.45;
+    margin-top: 14px;
+    max-width: 300px;
+    font-size: 13px;
+    line-height: 1.62;
   }
 
   .work1-page .moments-carousel {
@@ -1560,6 +1568,91 @@ img.home-piece,
   .work1-page .project-card.reveal-item.is-visible:hover,
   .work1-page .project-card.reveal-item.is-visible:focus-visible {
     transform: none !important;
+  }
+
+  .work1-page .viewport {
+    width: 100vw !important;
+    height: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow: visible;
+  }
+
+  .work1-page .artboard {
+    position: relative;
+    width: 100vw !important;
+    height: auto !important;
+    min-height: 100vh;
+    padding: 146px 0 150px;
+    transform: none !important;
+    overflow: visible;
+  }
+
+  .work1-page .artboard > .logo,
+  .work1-page .artboard > .nav-text {
+    display: none;
+  }
+
+  .work1-page .project-meta {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: calc(100vw - 56px) !important;
+    margin: 0 auto 28px;
+    translate: none;
+  }
+
+  .work1-page .moments-carousel {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100vw !important;
+    height: 198px !important;
+    margin: 10px auto 44px;
+    translate: none;
+    contain: layout paint;
+  }
+
+  .work1-page .moments-slide {
+    width: 72vw;
+    max-width: 310px;
+    height: auto;
+    aspect-ratio: 1160 / 653;
+    overflow: hidden;
+    will-change: auto;
+  }
+
+  .work1-page .moments-slide.is-active {
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .62);
+  }
+
+  .work1-page .moments-control {
+    width: 46px;
+    height: 46px;
+    font-size: 34px;
+    line-height: 38px;
+  }
+
+  .work1-page .project-index {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: calc(100vw - 56px) !important;
+    margin: 0 auto 24px;
+    font-size: 14px;
+  }
+
+  .work1-page .artboard > img.project-card {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    display: block;
+    width: calc(100vw - 56px) !important;
+    height: calc((100vw - 56px) * .5625) !important;
+    margin: 34px auto 0;
+    translate: none;
+    object-fit: cover;
+    contain: layout paint;
   }
 
   .work2-page .work-side-meta,
@@ -2647,6 +2740,10 @@ img.home-piece,
     return window.innerWidth <= 700 && (fromPage === "work1" || toPage === "work1");
   }
 
+  function shouldUseLowMemoryRoute(fromPage, toPage) {
+    return window.innerWidth <= 700 && (fromPage === "work1" || toPage === "work1");
+  }
+
   function fitBoards() {
     document.querySelectorAll(".viewport").forEach(function (viewport) {
       var h = Number(viewport.dataset.height || 3330);
@@ -3238,23 +3335,22 @@ img.home-piece,
     page.querySelectorAll(".moments-slide").forEach(function (slide) {
       var img = slide.querySelector("img[data-src]");
       var index = Number(slide.dataset.index || 0);
-      if (img && index <= 2) loadDeferredImage(img);
+      if (img && (index === 0 || index === 1 || index === 7)) loadDeferredImage(img);
     });
-    var observer = null;
-    var startProjectObserver = function () {
-      if (observer) return;
-      observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          loadDeferredImage(entry.target);
-          observer.unobserve(entry.target);
-        });
-      }, { rootMargin: "80px 0px" });
+    var loadNearbyProjects = function () {
+      var loaded = 0;
+      var limit = window.innerHeight + 260;
       page.querySelectorAll(".artboard > img.project-card[data-src]").forEach(function (img) {
-        observer.observe(img);
+        if (loaded >= 2) return;
+        var rect = img.getBoundingClientRect();
+        if (rect.top < limit && rect.bottom > -180) {
+          loadDeferredImage(img);
+          loaded += 1;
+        }
       });
     };
-    window.addEventListener("scroll", startProjectObserver, { passive: true, once: true });
+    window.addEventListener("scroll", loadNearbyProjects, { passive: true });
+    window.addEventListener("resize", loadNearbyProjects, { passive: true });
   }
 
   function loadWork1ProjectTarget(id) {
@@ -3282,18 +3378,20 @@ img.home-piece,
         return raw;
       }
       function render() {
+        var compact = window.innerWidth <= 700 && !!carousel.closest(".work1-page");
+        var stepX = compact ? Math.min(138, window.innerWidth * .34) : 430;
         slides.forEach(function (slide, index) {
           var offset = signedOffset(index);
           var distance = Math.abs(offset);
           var hidden = distance > 2;
-          if (!hidden) loadDeferredImage(slide.querySelector("img[data-src]"));
+          if (!hidden && (window.innerWidth > 700 || distance <= 1)) loadDeferredImage(slide.querySelector("img[data-src]"));
           slide.classList.toggle("is-active", distance === 0);
           slide.tabIndex = hidden ? -1 : 0;
           slide.style.pointerEvents = hidden ? "none" : "auto";
           slide.style.zIndex = String(40 - distance * 10);
           slide.style.opacity = String(hidden ? 0 : distance === 0 ? 1 : distance === 1 ? .72 : .38);
-          slide.style.filter = "blur(" + (hidden ? 10 : distance === 0 ? 0 : distance === 1 ? 2 : 5) + "px)";
-          slide.style.transform = "translate(-50%, -50%) translate(" + (offset * 430) + "px, " + (distance === 0 ? -12 : distance * 18) + "px) scale(" + (distance === 0 ? 1 : distance === 1 ? .78 : .58) + ")";
+          slide.style.filter = compact ? "none" : "blur(" + (hidden ? 10 : distance === 0 ? 0 : distance === 1 ? 2 : 5) + "px)";
+          slide.style.transform = "translate(-50%, -50%) translate(" + (offset * stepX) + "px, " + (compact ? 0 : distance === 0 ? -12 : distance * 18) + "px) scale(" + (distance === 0 ? 1 : distance === 1 ? .78 : .58) + ")";
         });
       }
       function go(step) { current = wrap(current + step); render(); }
@@ -3425,6 +3523,7 @@ img.home-piece,
     if (!template) return;
     var previousPage = currentPage;
     var stableRoute = useStableRoute(previousPage, page);
+    var lowMemoryRoute = shouldUseLowMemoryRoute(previousPage, page);
     if (stableRoute && previousPage !== page) {
       app.classList.remove("route-fade-in");
       app.classList.add("route-fade");
@@ -3439,7 +3538,7 @@ img.home-piece,
     });
     app.innerHTML = template.innerHTML;
     window.scrollTo(0, 0);
-    if (!stableRoute) {
+    if (!stableRoute && !lowMemoryRoute) {
       prehideIncomingPage(page, previousPage);
       prehideBridgeTargets(records || []);
     }
@@ -3448,7 +3547,7 @@ img.home-piece,
       fitBoards();
       updateFixedChrome();
       animateFixedChromeFrom(previousChrome);
-      if (!stableRoute) {
+      if (!stableRoute && !lowMemoryRoute) {
         animateBridge(records || []);
         window.requestAnimationFrame(function () {
           animateSummaryCards(records || []);
