@@ -2,107 +2,13 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Menu</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Sebastian’s Archive</title>
+  <link rel="canonical" href="index.html#menu">
+  <meta http-equiv="refresh" content="0; url=index.html#menu">
+  <script>location.replace("index.html#menu");</script>
 </head>
-<body>
-  <main class="page-shell">
-    <div class="viewport" data-height="3401">
-      <section class="artboard">
-        <a class="logo" style="left:152px;top:100px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio" decoding="async"></a>
-        <a class="nav-text" style="left:2737px;top:167px" href="index.html">Back</a>
-        <p class="label layer" style="left:205px;top:420px">About Me</p>
-        <p class="label layer" style="left:829px;top:420px">Concept</p>
-        <p class="label layer" style="left:1505px;top:420px">Connect</p>
-        <p class="label layer" style="left:1947px;top:420px">Project</p>
-        <a class="layer menu-card shadow-soft" style="left:205px;top:508px;width:589.091px;height:832.04px" href="home.html"><img src="assets/resume.webp" alt="Resume" decoding="async"></a>
-        <div class="layer menu-card menu-concept-card" style="left:829.47px;top:508px;width:640.609px;height:1385.188px">
-          <img src="assets/directory.webp" alt="Directory" decoding="async">
-          <div class="concept-list" aria-label="Project introductions">
-          <article class="concept-item">
-            <button class="concept-title" type="button">01&nbsp;&nbsp;Fugitive Moments</button>
-            <div class="concept-detail">
-              <p>平面系列作品，记录那些生命、光影与情绪交汇的刹那。</p>
-              <a href="work1.html">Open Project</a>
-            </div>
-          </article>
-          <article class="concept-item">
-            <button class="concept-title" type="button">02&nbsp;&nbsp;Spring collection scented candle</button>
-            <div class="concept-detail">
-              <p>平面香薰广告作品，一缕春意的呼吸——轻柔、明亮、悄然治愈。</p>
-              <a href="work2.html">Open Project</a>
-            </div>
-          </article>
-          <article class="concept-item">
-            <button class="concept-title" type="button">03&nbsp;&nbsp;Maison Margiela FW</button>
-            <div class="concept-detail">
-              <p>平面广告马吉拉作品，在静谧的天空蓝前，红色轮廓划破沉静。</p>
-              <a href="work3.html">Open Project</a>
-            </div>
-          </article>
-          <article class="concept-item">
-            <button class="concept-title" type="button">04&nbsp;&nbsp;YSL Womens Summer 26</button>
-            <div class="concept-detail">
-              <p>平面YSL圣罗兰广告系列作品，流动的优雅——柔软却不可动摇。</p>
-              <a href="work4.html">Open Project</a>
-            </div>
-          </article>
-          <article class="concept-item">
-            <button class="concept-title" type="button">05&nbsp;&nbsp;2023 National College Student<br><span>Advertising Art Competition</span></button>
-            <div class="concept-detail">
-              <p>2023年大广赛平面设计获奖作品以及参赛作品，娃哈哈咖位系列与泡泡玛特参赛作品。</p>
-              <a href="work5.html">Open Project</a>
-            </div>
-          </article>
-          <article class="concept-item">
-            <button class="concept-title" type="button">06&nbsp;&nbsp;Dainese Brand Calendar</button>
-            <div class="concept-detail">
-              <p>Dainese临时美工作品，Dainese品牌日历，每月一张独特视觉设计。</p>
-              <a href="work6.html">Open Project</a>
-            </div>
-          </article>
-          <article class="concept-item">
-            <button class="concept-title" type="button">07&nbsp;&nbsp;2025 Collection of 2D Animated Works</button>
-            <div class="concept-detail">
-              <p>2025平面作品合集动画，运用AE整合包含2025制作的平面海报内容。</p>
-              <a href="work7.html">Open Project</a>
-            </div>
-          </article>
-          <article class="concept-item">
-            <button class="concept-title" type="button">08&nbsp;&nbsp;School Film Club Food Video (2021)</button>
-            <div class="concept-detail">
-              <p>2021影视部美食节目，2021年在学校影视部后期部的一条作品。</p>
-              <a href="work8.html">Open Project</a>
-            </div>
-          </article>
-          <article class="concept-item">
-            <button class="concept-title" type="button">09&nbsp;&nbsp;AIGC Design: School Course Project</button>
-            <div class="concept-detail">
-              <p>2025学校课程AIGC作业，运用GPT以及Midjourney制作。</p>
-              <a href="work9.html">Open Project</a>
-            </div>
-          </article>
-          </div>
-        </div>
-        <a class="layer menu-card shadow-soft" style="left:1505.39px;top:508px;width:406.56px;height:304.816px" href="home.html"><img src="assets/profile-card.webp" alt="Contact card" decoding="async"></a>
-        <a class="layer menu-card shadow-deep" style="left:1947.25px;top:508px;width:838.746px;height:1200.511px" href="summary.html"><img src="assets/portfolio-bag.webp" alt="Portfolio bag" decoding="async"></a>
-      </section>
-    </div>
-  </main>
-  <script src="fit.js?v=motion17"></script>
-  <script>
-    document.querySelectorAll('.concept-title').forEach(function (button) {
-      button.addEventListener('click', function () {
-        var item = button.closest('.concept-item');
-        var isOpen = item.classList.contains('is-open');
-        document.querySelectorAll('.concept-item.is-open').forEach(function (openItem) {
-          openItem.classList.remove('is-open');
-        });
-        if (!isOpen) item.classList.add('is-open');
-      });
-    });
-  </script>
+<body style="margin:0;background:#000;color:#fff;font-family:'Times New Roman',serif">
+  <a href="index.html#menu" style="color:#fff">Sebastian’s Archive</a>
 </body>
 </html>
-

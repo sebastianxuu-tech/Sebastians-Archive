@@ -1169,6 +1169,11 @@ img.home-piece,
     transform: translateX(-50%) !important;
   }
 
+  body:has(.menu-page) .fixed-chrome-clone.logo {
+    left: 16px !important;
+    transform: none !important;
+  }
+
   .fixed-chrome-clone.nav-text {
     top: 14px !important;
     width: auto !important;
@@ -1211,39 +1216,39 @@ img.home-piece,
   }
 
   .menu-page .label {
-    font-size: 118px;
+    font-size: 98px;
     line-height: .96;
     z-index: 45;
   }
 
   .menu-page .menu-label-about {
-    left: 374px !important;
+    left: 360px !important;
     top: 760px !important;
   }
 
   .menu-page .menu-card-about {
-    left: 374px !important;
-    top: 1040px !important;
-    width: 1050px !important;
-    height: 1483px !important;
+    left: 360px !important;
+    top: 995px !important;
+    width: 1100px !important;
+    height: 1555px !important;
   }
 
   .menu-page .menu-label-concept {
-    left: 1514px !important;
+    left: 1530px !important;
     top: 760px !important;
   }
 
   .menu-page .menu-concept-card {
-    left: 1514px !important;
-    top: 1040px !important;
+    left: 1530px !important;
+    top: 995px !important;
     width: 1100px !important;
-    height: 2380px !important;
+    height: 2377px !important;
   }
 
   .menu-page .menu-concept-card .concept-list {
-    left: 97px;
-    top: 666px;
-    width: 960px;
+    left: 93px;
+    top: 691px;
+    width: 933px;
   }
 
   .menu-page .menu-concept-card .concept-item {
@@ -1300,27 +1305,27 @@ img.home-piece,
   }
 
   .menu-page .menu-label-connect {
-    left: 374px !important;
-    top: 2560px !important;
+    left: 360px !important;
+    top: 3350px !important;
   }
 
   .menu-page .menu-card-connect {
-    left: 374px !important;
-    top: 2820px !important;
-    width: 1050px !important;
-    height: 788px !important;
+    left: 360px !important;
+    top: 3575px !important;
+    width: 1100px !important;
+    height: 825px !important;
   }
 
   .menu-page .menu-label-project {
-    left: 374px !important;
-    top: 3660px !important;
+    left: 1530px !important;
+    top: 3350px !important;
   }
 
   .menu-page .menu-card-project {
-    left: 374px !important;
-    top: 3940px !important;
-    width: 2240px !important;
-    height: 3200px !important;
+    left: 1530px !important;
+    top: 3575px !important;
+    width: 1100px !important;
+    height: 1574px !important;
   }
 
   .menu-page .menu-card-project > img {
@@ -2471,7 +2476,7 @@ img.home-piece,
   function fitBoards() {
     document.querySelectorAll(".viewport").forEach(function (viewport) {
       var h = Number(viewport.dataset.height || 3330);
-      if (window.innerWidth <= 700 && viewport.closest(".menu-page")) h = Math.max(h, 8050);
+      if (window.innerWidth <= 700 && viewport.closest(".menu-page")) h = Math.max(h, 6000);
       if (window.innerWidth <= 700 && viewport.closest(".work9-page")) h += 960;
       var max = Number(viewport.dataset.max || window.innerWidth);
       var available = Math.max(320, Math.min(window.innerWidth, max));
