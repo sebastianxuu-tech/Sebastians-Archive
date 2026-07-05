@@ -5,7 +5,172 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>Sebastian’s Archive</title>
   <link rel="preload" as="image" href="assets/directory.webp" fetchpriority="high">
+  <link rel="preload" as="font" href="assets/fonts/times-new-roman.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="assets/fonts/times-new-roman-bold.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="assets/fonts/noto-serif-sc-subset.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="assets/fonts/californian-fb.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="assets/fonts/boone.woff2" type="font/woff2" crossorigin>
   <style>
+@font-face {
+  font-family: "Times New Roman";
+  src: url("assets/fonts/times-new-roman.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Times New Roman";
+  src: url("assets/fonts/times-new-roman-bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Georgia";
+  src: url("assets/fonts/times-new-roman.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Georgia";
+  src: url("assets/fonts/times-new-roman-bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Kyiv*Type Serif";
+  src: url("assets/fonts/times-new-roman.woff2") format("woff2");
+  font-weight: 300 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Kyiv*Type Serif";
+  src: url("assets/fonts/times-new-roman-bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KyivType Serif";
+  src: url("assets/fonts/times-new-roman.woff2") format("woff2");
+  font-weight: 300 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KyivType Serif";
+  src: url("assets/fonts/times-new-roman-bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Kyiv*Type_Serif";
+  src: url("assets/fonts/times-new-roman.woff2") format("woff2");
+  font-weight: 300 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Kyiv*Type_Serif";
+  src: url("assets/fonts/times-new-roman-bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Californian FB";
+  src: url("assets/fonts/californian-fb.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Californian FB";
+  src: url("assets/fonts/californian-fb-bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BOONE";
+  src: url("assets/fonts/boone.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Serif SC";
+  src: url("assets/fonts/noto-serif-sc-subset.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Songti SC";
+  src: url("assets/fonts/noto-serif-sc-subset.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SimSun";
+  src: url("assets/fonts/noto-serif-sc-subset.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arial";
+  src: url("assets/fonts/arial.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arial";
+  src: url("assets/fonts/arial-bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("assets/fonts/arial.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("assets/fonts/arial-bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
 }
