@@ -2674,11 +2674,13 @@ img.home-piece,
 
   function mobileChromeFrame(item) {
     if (window.innerWidth > 700) return null;
+    var sidePad = 16;
+    var navWidth = 72;
     if (item.classList.contains("logo")) {
       var logoWidth = 96;
       var logoHeight = 54;
       return {
-        left: (currentPage === "menu" ? 16 : (window.innerWidth - logoWidth) / 2) + "px",
+        left: (currentPage === "menu" ? sidePad : (window.innerWidth - logoWidth) / 2) + "px",
         top: "8px",
         width: logoWidth + "px",
         height: logoHeight + "px",
@@ -2689,14 +2691,17 @@ img.home-piece,
       item.style.width = "auto";
       item.style.height = "auto";
       item.style.transform = "none";
-      var width = Math.max(44, item.offsetWidth || 44);
+      var text = (item.textContent || "").trim().toLowerCase();
       var height = Math.max(44, item.offsetHeight || 44);
       var href = item.getAttribute("href") || "";
-      var isMenuLink = pageFromHref(href) === "menu";
+      var isMenuLink = text === "menu" || pageFromHref(href) === "menu";
+      var isBackLink = text === "back";
+      item.style.justifyContent = isMenuLink ? "flex-start" : "flex-end";
+      item.style.textAlign = isMenuLink ? "left" : "right";
       return {
-        left: (isMenuLink ? 16 : window.innerWidth - 16 - width) + "px",
+        left: (isMenuLink && !isBackLink ? sidePad : window.innerWidth - sidePad - navWidth) + "px",
         top: "14px",
-        width: width + "px",
+        width: navWidth + "px",
         height: height + "px",
         transform: "none"
       };
