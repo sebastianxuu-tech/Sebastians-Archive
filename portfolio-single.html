@@ -988,7 +988,11 @@ img.home-piece,
   .mobile-video-player.is-native-fullscreen .mobile-video-element::-webkit-media-controls,
   .mobile-video-player.is-native-fullscreen .mobile-video-element::-webkit-media-controls-panel,
   .mobile-video-player.is-native-fullscreen .mobile-video-element::-webkit-media-controls-play-button,
-  .mobile-video-player.is-native-fullscreen .mobile-video-element::-webkit-media-controls-start-playback-button {
+  .mobile-video-player.is-native-fullscreen .mobile-video-element::-webkit-media-controls-start-playback-button,
+  .mobile-video-player.is-player-fullscreen .mobile-video-element::-webkit-media-controls,
+  .mobile-video-player.is-player-fullscreen .mobile-video-element::-webkit-media-controls-panel,
+  .mobile-video-player.is-player-fullscreen .mobile-video-element::-webkit-media-controls-play-button,
+  .mobile-video-player.is-player-fullscreen .mobile-video-element::-webkit-media-controls-start-playback-button {
     display: initial !important;
     -webkit-appearance: media-controls !important;
   }
@@ -1056,7 +1060,8 @@ img.home-piece,
     transform: translate(-50%, -50%) scale(.86);
   }
 
-  .mobile-video-player.is-native-fullscreen .mobile-video-play {
+  .mobile-video-player.is-native-fullscreen .mobile-video-play,
+  .mobile-video-player.is-player-fullscreen .mobile-video-play {
     opacity: 0;
     pointer-events: none;
   }
@@ -3191,9 +3196,16 @@ img.home-piece,
       function isAndroidDevice() {
         return /Android/i.test(navigator.userAgent || "");
       }
+      function enableVideoSound() {
+        video.muted = false;
+        video.defaultMuted = false;
+        video.volume = 1;
+        video.removeAttribute("muted");
+      }
       function setNativeFullscreenMode(active) {
         player.classList.toggle("is-native-fullscreen", active);
         if (active) {
+          enableVideoSound();
           video.controls = true;
           video.setAttribute("controls", "");
           button.setAttribute("aria-hidden", "true");
@@ -3211,6 +3223,14 @@ img.home-piece,
       function setPlayerFullscreenMode(active) {
         player.classList.toggle("is-player-fullscreen", active);
         if (!isMobileVideoMode()) return;
+        if (active) {
+          enableVideoSound();
+          video.controls = true;
+          video.setAttribute("controls", "");
+          button.setAttribute("aria-hidden", "true");
+          if (!video.paused && !video.ended) hidePlay();
+          return;
+        }
         video.controls = false;
         video.removeAttribute("controls");
         video.setAttribute("playsinline", "");
@@ -3262,8 +3282,7 @@ img.home-piece,
           event.preventDefault();
           event.stopPropagation();
         }
-        video.muted = false;
-        video.removeAttribute("muted");
+        enableVideoSound();
         var playPromise = video.play();
         if (playPromise && playPromise.catch) playPromise.catch(showPlay);
       }
@@ -3276,8 +3295,7 @@ img.home-piece,
         }
       }
       function openFullscreen() {
-        video.muted = false;
-        video.removeAttribute("muted");
+        enableVideoSound();
         var playPromise = video.play();
         if (playPromise && playPromise.catch) playPromise.catch(function () {});
         if (isAndroidDevice()) {
