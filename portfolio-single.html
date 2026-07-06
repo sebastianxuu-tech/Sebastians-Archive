@@ -766,7 +766,18 @@ img.home-piece,
   opacity: 1 !important;
   filter: none !important;
   mix-blend-mode: normal !important;
+  -webkit-font-smoothing: antialiased;
+  font-synthesis: none;
   text-shadow: 0 0 0 #fff;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .work9-page .aigc-text .aigc-title {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    -webkit-text-stroke: .18px rgba(255, 255, 255, .96);
+    text-shadow: 0 0 .35px rgba(255, 255, 255, .96);
+  }
 }
 
 .aigc-copy {
@@ -1859,7 +1870,18 @@ img.home-piece,
     opacity: 1 !important;
     filter: none !important;
     mix-blend-mode: normal !important;
+    -webkit-font-smoothing: antialiased;
+    font-synthesis: none;
     text-shadow: 0 0 .01px #fff, 0 0 0 #fff;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    .work9-page .aigc-text .aigc-title {
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+      -webkit-text-stroke: .18px rgba(255, 255, 255, .96);
+      text-shadow: 0 0 .35px rgba(255, 255, 255, .96);
+    }
   }
 
   .work5-series-tabs {
