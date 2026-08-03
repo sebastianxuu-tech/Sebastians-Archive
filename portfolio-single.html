@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>Sebastian’s Archive</title>
-  <link rel="preload" as="image" href="assets/directory.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/directory-intro-long.png" fetchpriority="high">
   <link rel="preload" as="font" href="assets/fonts/times-new-roman.woff2" type="font/woff2" crossorigin>
   <link rel="preload" as="font" href="assets/fonts/times-new-roman-bold.woff2" type="font/woff2" crossorigin>
   <link rel="preload" as="font" href="assets/fonts/noto-serif-sc-subset.woff2" type="font/woff2" crossorigin>
@@ -448,7 +448,7 @@ img.home-piece,
 
 .menu-concept-card .concept-list {
   left: 56.32px;
-  top: 388.26px;
+  top: 348.26px;
 }
 
 .menu-hold-preview {
@@ -972,6 +972,129 @@ img.home-piece,
   box-shadow: 0 34px 86px rgba(0, 0, 0, .62);
 }
 
+.milo-sheet {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 92px;
+  overflow: hidden;
+  padding: 150px 138px 210px;
+  background: #fbfaf8;
+  color: #161311;
+}
+
+.milo-sheet-intro {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 56px 88px;
+  align-items: center;
+  padding-bottom: 92px;
+  border-bottom: 3px solid #171311;
+}
+
+.milo-sheet-eyebrow,
+.milo-sheet h2 {
+  margin: 0;
+  font-family: "Kyiv*Type Serif", "KyivType Serif", "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.milo-sheet-eyebrow {
+  color: #5a4335;
+  font-size: 31px;
+  line-height: 1.2;
+}
+
+.milo-sheet-wordmark {
+  width: 100%;
+  max-width: 920px;
+  grid-column: 1 / -1;
+  justify-self: center;
+  mix-blend-mode: multiply;
+}
+
+.milo-sheet-copy {
+  margin: 0;
+  font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  font-size: 38px;
+  line-height: 1.7;
+}
+
+.milo-sheet h2 {
+  font-size: 62px;
+  line-height: 1.05;
+}
+
+.milo-character-spread,
+.milo-packaging-spread,
+.milo-palette-spread {
+  display: grid;
+  gap: 34px;
+}
+
+.milo-character-spread {
+  grid-template-columns: 1fr 1.28fr;
+  align-items: center;
+}
+
+.milo-character-spread img,
+.milo-packaging-spread img,
+.milo-palette-spread img,
+.milo-sheet-feature {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  box-shadow: 0 20px 48px rgba(24, 13, 7, .16);
+  transition: transform .42s cubic-bezier(.2, .78, .18, 1), box-shadow .34s ease;
+}
+
+.milo-character-spread img:hover,
+.milo-packaging-spread img:hover,
+.milo-palette-spread img:hover,
+.milo-sheet-feature:hover {
+  transform: translateY(-12px) scale(1.014);
+  box-shadow: 0 32px 74px rgba(24, 13, 7, .22);
+}
+
+.milo-sheet-note {
+  margin: 0;
+  color: #514a45;
+  font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  font-size: 33px;
+  line-height: 1.64;
+}
+
+.milo-packaging-spread {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.milo-palette-spread {
+  grid-template-columns: .9fr 1.1fr;
+  align-items: stretch;
+}
+
+.milo-palette-spread img {
+  height: 100%;
+}
+
+.milo-pdf-art {
+  display: block;
+  background: #fff;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, .48);
+}
+
+.milo-pdf-sheet {
+  height: 25660px !important;
+  padding: 0 !important;
+  background: #fff url("assets/milo-brand-identity.jpg") center top / 100% auto no-repeat;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, .48);
+}
+
+.milo-pdf-sheet > * {
+  display: none;
+}
+
 .mobile-video-player {
   position: absolute;
   overflow: hidden;
@@ -1371,7 +1494,7 @@ img.home-piece,
 
 .home-concept-wrap .concept-list {
   left: 104px;
-  top: 717px;
+  top: 660px;
   width: 1030px;
 }
 
@@ -1475,7 +1598,7 @@ img.home-piece,
 
   .menu-page .menu-concept-card .concept-list {
     left: 93px;
-    top: 691px;
+    top: 620px;
     width: 933px;
   }
 
@@ -1769,6 +1892,54 @@ img.home-piece,
     pointer-events: none;
   }
 
+  .work10-page .project-meta {
+    left: 501px !important;
+    top: 300px !important;
+    width: 1984px !important;
+    translate: 0 340px;
+    z-index: 70;
+  }
+
+  .work10-page .project-kicker {
+    font-size: 70px;
+  }
+
+  .work10-page .project-heading {
+    font-size: 142px;
+  }
+
+  .work10-page .project-desc {
+    margin-top: 28px;
+    font-size: 62px;
+    line-height: 1.5;
+  }
+
+  .work10-page .milo-sheet {
+    top: 1520px !important;
+    gap: 104px;
+  }
+
+  .work10-page .milo-sheet-eyebrow {
+    font-size: 62px;
+  }
+
+  .work10-page .milo-sheet h2 {
+    font-size: 112px;
+  }
+
+  .work10-page .milo-sheet-copy {
+    font-size: 66px;
+  }
+
+  .work10-page .milo-sheet-note {
+    font-size: 56px;
+  }
+
+  .work10-page .milo-pdf-sheet,
+  .work10-page .milo-pdf-art {
+    top: 1460px !important;
+  }
+
   .home-concept-wrap .concept-title {
     position: relative;
     min-height: 0;
@@ -1932,7 +2103,7 @@ img.home-piece,
         <div class="layer home-stack" style="left:268px;top:492px;width:2449.673px;height:2757.289px">
           <img class="layer home-piece shadow-soft" data-piece="resume" data-hover-transform="rotate(0deg) scale(1.045)" style="z-index:2;left:0;top:0;width:946.128px;height:1272.895px;transform:rotate(-4.26deg)" src="assets/resume.webp" alt="Resume" decoding="async">
           <div class="layer home-piece home-directory-card shadow-soft" data-piece="directory" data-hover-transform="rotate(0deg) scale(1.035)" style="z-index:3;left:581px;top:153px;width:1183px;height:2558px;transform:rotate(-4.93deg)">
-            <img src="assets/directory.webp" alt="Directory" decoding="async">
+            <img src="assets/directory-intro-long.png" alt="Directory" decoding="async">
             <div class="home-concept-wrap" aria-label="Project introductions">
             <div class="concept-list">
               <article class="concept-item">
@@ -1998,6 +2169,13 @@ img.home-piece,
                   <a href="work9.html">Open Project</a>
                 </div>
               </article>
+              <article class="concept-item">
+                <button class="concept-title" type="button">10&nbsp;&nbsp;MILO — Concept Brand Identity Design</button>
+                <div class="concept-detail">
+                  <p>自拟品牌 MILO 是一个黑巧品牌概念设计</p>
+                  <a href="work10.html">Open Project</a>
+                </div>
+              </article>
             </div>
             </div>
           </div>
@@ -2021,7 +2199,7 @@ img.home-piece,
         <p class="label layer menu-label-project" style="left:1947px;top:420px">Project</p>
         <a class="layer menu-card menu-card-about shadow-soft" style="left:205px;top:508px;width:589.091px;height:832.04px" href="home.html"><img src="assets/resume.webp" alt="Resume" decoding="async"></a>
         <div class="layer menu-card menu-concept-card" style="left:829.47px;top:508px;width:640.609px;height:1385.188px">
-          <img src="assets/directory.webp" alt="Directory" decoding="async">
+          <img src="assets/directory-intro-long.png" alt="Directory" decoding="async">
           <div class="concept-list" aria-label="Project introductions">
           <article class="concept-item">
             <button class="concept-title" type="button">01&nbsp;&nbsp;Fugitive Moments</button>
@@ -2086,6 +2264,13 @@ img.home-piece,
               <a href="work9.html">Open Project</a>
             </div>
           </article>
+          <article class="concept-item">
+            <button class="concept-title" type="button">10&nbsp;&nbsp;MILO — Concept Brand Identity Design</button>
+            <div class="concept-detail">
+              <p>自拟品牌 MILO 是一个黑巧品牌概念设计</p>
+              <a href="work10.html">Open Project</a>
+            </div>
+          </article>
           </div>
         </div>
         <a class="layer menu-card menu-card-connect shadow-soft" style="left:1505.39px;top:508px;width:406.56px;height:304.816px" href="home.html"><img src="assets/profile-card.webp" alt="Contact card" decoding="async"></a>
@@ -2112,6 +2297,7 @@ img.home-piece,
         <a class="layer summary-card shadow-deep" style="left:454.29px;top:2175.19px;width:932.592px;height:524.583px;transform:rotate(12.71deg);--hover-transform:rotate(0deg) scale(1.04)" href="work1.html"><img src="assets/moments-00.webp" alt="Fugitive Moments" decoding="async" loading="lazy"></a>
         <a class="layer summary-card shadow-deep" style="left:1707.06px;top:962.75px;width:683px;height:383px;transform:rotate(9.13deg);--hover-transform:rotate(0deg) scale(1.04)" href="work9.html"><img src="assets/ai 1.webp" alt="AIGC work" decoding="async" loading="lazy"></a>
         <a class="layer summary-card shadow-deep" style="left:1653.94px;top:1345.46px;width:873.094px;height:410.446px;transform:rotate(6.69deg);--hover-transform:rotate(0deg) scale(1.04)" href="work7.html"><img src="assets/video-cover-1.webp" alt="Animated Works" decoding="async" loading="lazy"></a>
+        <a class="layer summary-card shadow-deep" style="z-index:18;left:1726px;top:1564px;width:840px;height:472px;transform:rotate(-13.5deg);--hover-transform:rotate(0deg) scale(1.04)" href="work10.html"><img src="assets/milo-logo-cute.webp" alt="MILO concept brand identity" decoding="async" loading="lazy"></a>
       </section>
     </div>
   </main>
@@ -2361,6 +2547,58 @@ img.home-piece,
     </div>
   </main>
 </template>
+
+<template id="page-work10" data-title="Sebastian’s Archive">
+<main class="page-shell work10-page">
+    <div class="viewport" data-height="27600">
+      <section class="artboard">
+        <a class="logo" style="left:1275px;top:50px" href="home.html"><img src="assets/logo.png" alt="Sebastian's Portfolio" decoding="async"></a>
+        <a class="nav-text" style="left:128px;top:117px" href="menu.html">Menu</a>
+        <a class="nav-text" style="left:2737px;top:117px" href="summary.html">Back</a>
+        <div class="project-meta layer" style="left:501px;top:350px;width:1984px">
+          <p class="project-kicker">10 / Concept Brand Identity</p>
+          <h1 class="project-heading">MILO Dark Chocolate</h1>
+          <p class="project-desc">自拟品牌 MILO 是一个黑巧品牌概念设计。以小黑羊 IP 为核心视觉符号，将 80% 黑巧克力的浓郁、纯粹与年轻、有趣的品牌性格结合，重新诠释“苦”的体验。</p>
+        </div>
+        <section class="milo-sheet milo-pdf-sheet layer" style="left:501px;top:940px;width:1984px;height:25660px" aria-label="MILO concept brand identity presentation">
+          <div class="milo-sheet-intro">
+            <p class="milo-sheet-eyebrow">ORGANIC DARK CHOCOLATE<br>80% COCOA / 0% WHITE SUGAR ADDED</p>
+            <p class="milo-sheet-copy">MILO 让黑巧不再只是具有距离感的成熟产品，而成为更年轻、更具个性的消费选择。真实但有态度，浓郁但有趣。</p>
+            <img class="milo-sheet-wordmark" src="assets/milo/milo-45.webp" alt="MILO wordmark" decoding="async">
+          </div>
+          <div class="milo-character-spread">
+            <img src="assets/milo/milo-21.webp" alt="MILO black sheep character" decoding="async" loading="lazy">
+            <div>
+              <h2>Brand Strategy</h2>
+              <p class="milo-sheet-copy">以 80% 黑巧克力浓郁、纯粹的产品特点为起点，MILO 通过小黑羊的角色化表达建立亲和的品牌记忆。独立、有趣的个性，让高可可含量黑巧也拥有轻松的情感连接。</p>
+            </div>
+          </div>
+          <img class="milo-sheet-feature" src="assets/milo/milo-34.webp" alt="MILO packaging system overview" decoding="async" loading="lazy">
+          <div>
+            <h2>Packaging System</h2>
+            <p class="milo-sheet-note">三组高饱和包装延续同一视觉语言：清晰的可可含量、零蔗糖信息、手绘巧克力与角色插画共同构成线上消费场景中的快速识别。</p>
+          </div>
+          <div class="milo-packaging-spread">
+            <img src="assets/milo/milo-24.webp" alt="MILO pink package" decoding="async" loading="lazy">
+            <img src="assets/milo/milo-28.webp" alt="MILO green package" decoding="async" loading="lazy">
+            <img src="assets/milo/milo-30.webp" alt="MILO blue package" decoding="async" loading="lazy">
+          </div>
+          <div class="milo-palette-spread">
+            <img src="assets/milo/milo-43.webp" alt="Dark chocolate texture" decoding="async" loading="lazy">
+            <img src="assets/milo/milo-30.webp" alt="MILO blue package and chocolate" decoding="async" loading="lazy">
+          </div>
+          <div class="milo-character-spread">
+            <div>
+              <h2>Dark, But Playful</h2>
+              <p class="milo-sheet-copy">文字、插画与产品信息在同一系统里协作，让“苦”拥有新的亲近感。每一块包装都将黑巧的醇厚风味转化为更具触感与趣味性的视觉体验。</p>
+            </div>
+            <img src="assets/milo/milo-48.webp" alt="MILO character illustration" decoding="async" loading="lazy">
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+</template>
   <script>
 
 (function () {
@@ -2377,7 +2615,8 @@ img.home-piece,
     "work6.html": "work6",
     "work7.html": "work7",
     "work8.html": "work8",
-    "work9.html": "work9"
+    "work9.html": "work9",
+    "work10.html": "work10"
   };
   var currentPage = "home";
   var app = document.getElementById("single-app");
@@ -2409,7 +2648,7 @@ img.home-piece,
   }
 
   function isWorkPage(page) {
-    return /^work[1-9]$/.test(page || currentPage);
+    return /^work(?:[1-9]|10)$/.test(page || currentPage);
   }
 
   function useStableRoute(fromPage, toPage) {
