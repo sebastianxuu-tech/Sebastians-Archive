@@ -1085,14 +1085,34 @@ img.home-piece,
 }
 
 .milo-pdf-sheet {
-  height: 25660px !important;
+  height: auto !important;
+  aspect-ratio: 1920 / 24830;
   padding: 0 !important;
-  background: #fff url("assets/milo-brand-identity.jpg") center top / 100% auto no-repeat;
+  background: #fff;
   box-shadow: 0 22px 58px rgba(0, 0, 0, .48);
 }
 
 .milo-pdf-sheet > * {
   display: none;
+}
+
+.milo-pdf-sheet > .milo-pdf-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1920 / 24830;
+  object-fit: contain;
+}
+
+@media (min-width: 701px) {
+  .fixed-work-backdrop-work10 {
+    height: min(9vw, 108px);
+  }
+
+  .fixed-work-backdrop-work10::after {
+    bottom: max(-2.8vw, -42px);
+    height: min(3.4vw, 54px);
+  }
 }
 
 .mobile-video-player {
@@ -2561,6 +2581,7 @@ img.home-piece,
           <p class="project-desc">自拟品牌 MILO 是一个黑巧品牌概念设计。以小黑羊 IP 为核心视觉符号，将 80% 黑巧克力的浓郁、纯粹与年轻、有趣的品牌性格结合，重新诠释“苦”的体验。</p>
         </div>
         <section class="milo-sheet milo-pdf-sheet layer" style="left:501px;top:940px;width:1984px;height:25660px" aria-label="MILO concept brand identity presentation">
+          <img class="milo-pdf-image" src="assets/milo-brand-identity.jpg" width="1920" height="24830" alt="MILO concept brand identity presentation" decoding="async">
           <div class="milo-sheet-intro">
             <p class="milo-sheet-eyebrow">ORGANIC DARK CHOCOLATE<br>80% COCOA / 0% WHITE SUGAR ADDED</p>
             <p class="milo-sheet-copy">MILO 让黑巧不再只是具有距离感的成熟产品，而成为更年轻、更具个性的消费选择。真实但有态度，浓郁但有趣。</p>
@@ -3129,7 +3150,7 @@ img.home-piece,
     });
     if (isWorkPage(currentPage)) {
       var backdrop = document.createElement("div");
-      backdrop.className = "fixed-work-backdrop";
+      backdrop.className = "fixed-work-backdrop fixed-work-backdrop-" + currentPage;
       document.body.appendChild(backdrop);
     }
   }
